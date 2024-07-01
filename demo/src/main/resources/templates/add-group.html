@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Student Group</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container my-2">
+    <div class="card">
+        <div class="card-body">
+            <h2>Add Student Group</h2>
+            <form th:action="@{/student-group/add}" th:object="${studentGroup}" method="post">
+                <div class="form-group">
+                    <label for="name">Group Name</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}">
+                </div>
+                <button type="submit" class="btn btn-primary">Save</button>
+                <a href="/student-group" class="btn btn-secondary">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
