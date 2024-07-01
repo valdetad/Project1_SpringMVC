@@ -1,11 +1,9 @@
 package com.example.Project1_SpringMVC.data.models;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+
+import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Entity
@@ -20,4 +18,15 @@ public class Student {
     private String email;
     private LocalDate birthdate;
 
+    @ManyToOne
+    @JoinColumn(name = "student_group_id")
+    private StudentGroup studentGroup;
+
+    @ManyToMany
+    @JoinTable(
+            name = "student_subject",
+            joinColumns = @JoinColumn(name = "student_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
+    private List<Subject> subjects;
 }
