@@ -1,9 +1,9 @@
 package com.example.Project1_SpringMVC.data.models;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -13,6 +13,7 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String firstName;
     private String lastName;
     private String email;
@@ -29,4 +30,7 @@ public class Student {
             inverseJoinColumns = @JoinColumn(name = "subject_id")
     )
     private List<Subject> subjects;
+
+    @OneToMany(mappedBy = "student")
+    private Set<Grade> grades;
 }
