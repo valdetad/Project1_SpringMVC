@@ -1,5 +1,6 @@
 package com.example.Project1_SpringMVC.controller;
 
+import com.example.Project1_SpringMVC.data.dtos.SubjectDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
+@RequestMapping("/subject")
 public class SubjectController {
 
     @Autowired
@@ -20,7 +22,7 @@ public class SubjectController {
     public String getAllSubjects(Model model) {
         List<Subject> subjects = subjectService.getAllSubjects();
         model.addAttribute("subjects", subjects);
-        model.addAttribute("newSubject", new Subject());
+        model.addAttribute("newSubject", new SubjectDto());
         return "subjects";
     }
 

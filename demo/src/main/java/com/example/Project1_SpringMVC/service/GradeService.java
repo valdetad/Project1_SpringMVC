@@ -1,6 +1,8 @@
 package com.example.Project1_SpringMVC.service;
+import com.example.Project1_SpringMVC.data.dtos.GradeDto;
 import com.example.Project1_SpringMVC.data.models.Grade;
 import com.example.Project1_SpringMVC.repository.GradeRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -10,11 +12,8 @@ import java.util.Optional;
 @Transactional
 public class GradeService {
 
+    @Autowired
     private GradeRepository gradeRepository;
-
-    public GradeService(GradeRepository gradeRepository){
-        this.gradeRepository = gradeRepository;
-    }
 
     public List <Grade> getAllGrade(){
         return gradeRepository.findAll();
@@ -28,6 +27,7 @@ public class GradeService {
         gradeRepository.deleteById((long) gradeId);
     }
 
+    //GradeDto
     public void saveOrUpdateGrade(Grade grade){
         gradeRepository.save(grade);
     }

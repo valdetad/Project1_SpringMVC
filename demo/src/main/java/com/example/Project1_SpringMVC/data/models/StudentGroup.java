@@ -1,5 +1,4 @@
 package com.example.Project1_SpringMVC.data.models;
-
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.List;

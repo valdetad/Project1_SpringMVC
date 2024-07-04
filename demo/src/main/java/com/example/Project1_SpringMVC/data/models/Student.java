@@ -1,9 +1,11 @@
 package com.example.Project1_SpringMVC.data.models;
+import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import jakarta.persistence.*;
 import lombok.Data;
+
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
+
 
 @Data
 @Entity
@@ -13,11 +15,10 @@ public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDate birthdate;
+    private LocalDate birthDate;
 
     @ManyToOne
     @JoinColumn(name = "student_group_id")
@@ -32,5 +33,16 @@ public class Student {
     private List<Subject> subjects;
 
     @OneToMany(mappedBy = "student")
-    private Set<Grade> grades;
+    private List<Grade> grades;
+
+
+    public StudentCreateDto mapToCreateDto() {
+        StudentCreateDto studentCreateDto = new StudentCreateDto();
+        studentCreateDto.setFirstName(this.firstName);
+        studentCreateDto.setLastName(this.lastName);
+        studentCreateDto.setEmail(this.email);
+        studentCreateDto.setBirthDate(this.birthDate);
+        studentCreateDto.setStudentGroupId(this.studentGroup.getId());
+        return studentCreateDto;
+    }
 }

@@ -1,4 +1,5 @@
 package com.example.Project1_SpringMVC.controller;
+import com.example.Project1_SpringMVC.data.dtos.StudentGroupCreateDto;
 import com.example.Project1_SpringMVC.data.models.StudentGroup;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ public class StudentGroupController {
     public String getAllStudentGroups(Model model) {
         List<StudentGroup> studentGroups = studentGroupService.getAllStudentGroups();
         model.addAttribute("studentGroups", studentGroups);
+        model.addAttribute("newStudentGroup", new StudentGroupCreateDto());
         return "groups";
     }
 
