@@ -42,12 +42,13 @@ public class StudentGroupController {
     public String showEditStudentGroupForm(@PathVariable("id") int id, Model model) {
         StudentGroup existingStudentGroup = studentGroupService.getStudentGroupById(id);
         if (existingStudentGroup != null) {
-            model.addAttribute("studentGroup", mapToStudentGroupCreateDto(existingStudentGroup));
+            model.addAttribute("studentGroup", existingStudentGroup);
             return "edit-group";
         } else {
             return "redirect:/student-group";
         }
     }
+
 
     @PostMapping("/edit/{id}")
     public String editStudentGroup(@PathVariable("id") int id, @ModelAttribute("studentGroup") StudentGroupCreateDto studentGroupDto) {
