@@ -17,6 +17,13 @@ public class SubjectController {
     @Autowired
     private SubjectService subjectService;
 
+
+    @ResponseBody
+    @GetMapping("/rest/all")
+    public List<Subject> getAllSubjects() {
+        return subjectService.getAllSubjects();
+    }
+
     @GetMapping
     public String getAllSubjects(Model model) {
         List<Subject> subjects = subjectService.getAllSubjects();
@@ -31,6 +38,7 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
+
     @GetMapping("/add")
     public String showSubjectForm(Model model) {
         model.addAttribute("newSubject", new SubjectCreateDto());
@@ -43,12 +51,20 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
+    @ResponseBody
+    @PostMapping("rest/add")
+    public Subject addSubjectRest(@RequestBody SubjectCreateDto subjectCreateDto) {
+        return subjectService.saveOrUpdateSubject(subjectCreateDto);
+    }
+
+
     @GetMapping("/edit/{id}")
     public String showEditSubjectForm(@PathVariable("id") int id, Model model) {
         Subject subject = subjectService.getSubjectById(id);
         if (subject != null) {
             SubjectCreateDto subjectDto = new SubjectCreateDto();
             subjectDto.setName(subject.getName());
+            subjectDto.setId(subject.getId());
             model.addAttribute("subject", subjectDto);
             return "edit-subject";
         } else {
@@ -57,7 +73,8 @@ public class SubjectController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editSubject(@PathVariable("id") int id, @ModelAttribute("subject") SubjectCreateDto subject) {subjectService.saveOrUpdateSubject(subject);
+    public String editSubject(@PathVariable("id") int id, @ModelAttribute("subject") SubjectCreateDto subject) {
+        subjectService.saveOrUpdateSubject(subject);
         return "redirect:/subject";
     }
 

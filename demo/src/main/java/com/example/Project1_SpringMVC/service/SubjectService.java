@@ -45,6 +45,7 @@ public class SubjectService {
         }
 
         subject.setName(subjectDto.getName());
+        // TODO update students
         return subjectRepository.save(subject);
     }
 }

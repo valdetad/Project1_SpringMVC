@@ -8,8 +8,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SubjectCreateDto {
-    @Setter
-    @Getter
     private Integer id;
     private String name;
     private List<Long> studentsIds;
