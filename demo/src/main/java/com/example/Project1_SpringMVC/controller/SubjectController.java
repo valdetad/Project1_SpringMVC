@@ -72,6 +72,13 @@ public class SubjectController {
         }
     }
 
+
+    @ResponseBody
+    @PostMapping("rest/edit")
+    public Subject editSubjectRest(@RequestBody SubjectCreateDto subject) {
+        return subjectService.saveOrUpdateSubject(subject);
+    }
+
     @PostMapping("/edit/{id}")
     public String editSubject(@PathVariable("id") int id, @ModelAttribute("subject") SubjectCreateDto subject) {
         subjectService.saveOrUpdateSubject(subject);
