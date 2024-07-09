@@ -13,25 +13,23 @@
     <div class="card">
         <div class="card-body">
             <h2>Subjects</h2>
-            <form th:object="${newSubject}" th:action="@{/subject}" method="post">
+            <form th:action="@{/subject}" th:object="${newSubject}" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}">
+                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Subject Name" required>
                 </div>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary">Add Subject</button>
             </form>
-            <h3>Subject List</h3>
+            <h3 class="mt-4">Subject List</h3>
             <table class="table">
                 <thead>
                 <tr>
-                    <th>ID</th>
                     <th>Name</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="subject : ${subjects}">
-                    <td th:text="${subject.id}"></td>
                     <td th:text="${subject.name}"></td>
                     <td>
                         <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success">Edit</a>

@@ -9,7 +9,7 @@
 <div class="container my-2">
     <div class="card">
         <h2>Add Grade</h2>
-        <form th:action="@{/grade}" th:object="${grade}" method="post">
+        <form th:action="@{/grade/add}" th:object="${grade}" method="post">
             <div class="form-group">
                 <label for="grade">Grade</label>
                 <input type="text" class="form-control" id="grade" th:field="*{gradeValue}">

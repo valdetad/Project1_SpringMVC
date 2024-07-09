@@ -11,10 +11,7 @@
         <div class="card-body">
             <h2>Edit Student Group</h2>
             <form th:action="@{/student-group/edit/{id}(id=${studentGroup.id})}" th:object="${studentGroup}" method="post">
-                <div class="form-group">
-                    <label for="name">Group Name</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}">
-                </div>
+                <input type="hidden" th:field="*{id}" />
                 <button type="submit" class="btn btn-primary">Save</button>
                 <a href="/student-group" class="btn btn-secondary">Cancel</a>
             </form>

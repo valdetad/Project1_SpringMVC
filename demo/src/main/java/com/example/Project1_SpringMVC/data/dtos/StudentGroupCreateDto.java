@@ -15,4 +15,3 @@ public class StudentGroupCreateDto {
 //
 //    private List<Long> subjectIds; // TODO different screen for subjects (not in student group)
 }
-

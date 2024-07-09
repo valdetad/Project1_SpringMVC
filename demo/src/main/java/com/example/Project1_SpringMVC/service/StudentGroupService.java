@@ -21,7 +21,7 @@ public class StudentGroupService {
     }
 
     public StudentGroup getStudentGroupById(int id) {
-        Optional<StudentGroup> studentGroup = studentGroupRepository.findById((long) id);
+        Optional<StudentGroup> studentGroup = studentGroupRepository.findById((int) id);
         return studentGroup.orElse(null);
     }
 
@@ -30,6 +30,6 @@ public class StudentGroupService {
     }
 
     public void deleteStudentGroup(int id) {
-        studentGroupRepository.deleteById((long) id);
+        studentGroupRepository.deleteById((int) id);
     }
 }

@@ -1,16 +1,18 @@
 package com.example.Project1_SpringMVC.data.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SubjectDto {
+public class SubjectCreateDto {
+    @Setter
+    @Getter
+    private Integer id;
     private String name;
     private List<Long> studentsIds;
     private List<Long> subjectIds;
+
 }

@@ -7,7 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GradeDto {
+
+public class GradeCreateDto {
     private Double gradeValue;
     private Integer studentId;
     private Integer subjectId;

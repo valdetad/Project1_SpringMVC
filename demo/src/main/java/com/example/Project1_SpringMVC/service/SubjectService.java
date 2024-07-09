@@ -1,5 +1,6 @@
 package com.example.Project1_SpringMVC.service;
 
+import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,21 @@ public class SubjectService {
         subjectRepository.deleteById((long) subjectId);
     }
 
-    public Subject saveOrUpdateSubject(Subject subject) {
+    public Subject saveOrUpdateSubject(SubjectCreateDto subjectDto) {
+        Subject subject;
+        if (subjectDto.getId() != null) {
+            Optional<Subject> existingSubjectOptional = subjectRepository.findById((long) subjectDto.getId());
+            if (existingSubjectOptional.isPresent()) {
+                subject = existingSubjectOptional.get();
+                subject.setName(subjectDto.getName());
+            } else {
+                throw new IllegalArgumentException("Subject with id " + subjectDto.getId() + " not found.");
+            }
+        } else {
+            subject = new Subject();
+        }
+
+        subject.setName(subjectDto.getName());
         return subjectRepository.save(subject);
     }
-
-
 }
