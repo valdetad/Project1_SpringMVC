@@ -4,6 +4,7 @@ import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +17,6 @@ public class SubjectController {
 
     @Autowired
     private SubjectService subjectService;
-
 
     @ResponseBody
     @GetMapping("/rest/all")
@@ -38,7 +38,6 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
-
     @GetMapping("/add")
     public String showSubjectForm(Model model) {
         model.addAttribute("newSubject", new SubjectCreateDto());
@@ -52,11 +51,10 @@ public class SubjectController {
     }
 
     @ResponseBody
-    @PostMapping("rest/add")
+    @PostMapping("/rest/add")
     public Subject addSubjectRest(@RequestBody SubjectCreateDto subjectCreateDto) {
         return subjectService.saveOrUpdateSubject(subjectCreateDto);
     }
-
 
     @GetMapping("/edit/{id}")
     public String showEditSubjectForm(@PathVariable("id") int id, Model model) {
@@ -72,9 +70,8 @@ public class SubjectController {
         }
     }
 
-
     @ResponseBody
-    @PostMapping("rest/edit")
+    @PostMapping("/rest/edit")
     public Subject editSubjectRest(@RequestBody SubjectCreateDto subject) {
         return subjectService.saveOrUpdateSubject(subject);
     }
@@ -83,6 +80,13 @@ public class SubjectController {
     public String editSubject(@PathVariable("id") int id, @ModelAttribute("subject") SubjectCreateDto subject) {
         subjectService.saveOrUpdateSubject(subject);
         return "redirect:/subject";
+    }
+
+    @ResponseBody
+    @DeleteMapping("/rest/delete/{id}")
+    public ResponseEntity<Void> deleteSubjectRest(@PathVariable("id") int id) {
+        subjectService.deleteSubject(id);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/delete/{id}")

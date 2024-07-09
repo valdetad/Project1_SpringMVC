@@ -26,8 +26,9 @@ public class SubjectService {
         return subject.orElse(null);
     }
 
-    public void deleteSubject(int subjectId) {
+    public Subject deleteSubject(int subjectId) {
         subjectRepository.deleteById((long) subjectId);
+        return null;
     }
 
     public Subject saveOrUpdateSubject(SubjectCreateDto subjectDto) {
