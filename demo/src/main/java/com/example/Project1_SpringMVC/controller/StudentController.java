@@ -47,7 +47,7 @@ public class StudentController {
         return studentService.saveOrUpdateStudent(studentCreateDto, id);
     }
 
-    //REST DELETE
+    //REST Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentRest(@PathVariable("id") int id) {
