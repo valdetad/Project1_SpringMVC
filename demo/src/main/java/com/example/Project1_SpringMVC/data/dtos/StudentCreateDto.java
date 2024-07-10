@@ -12,13 +12,12 @@ import java.util.List;
 @NoArgsConstructor
 
 public class StudentCreateDto {
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;
 
     private LocalDate birthDate;
     private Integer studentGroupId;
-    private List<Integer> subjectIds;
+    private List<Long> subjectIds;
 }
-
-
