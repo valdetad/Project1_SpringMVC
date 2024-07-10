@@ -6,6 +6,7 @@ import com.example.Project1_SpringMVC.service.StudentGroupService;
 import com.example.Project1_SpringMVC.service.StudentService;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,36 @@ public class StudentController {
 
     @Autowired
     private SubjectService subjectService;
+
+
+    @ResponseBody
+    @GetMapping("/rest/all")
+    public List<Student> getAllStudentsRest() {
+        return studentService.getAllStudents();
+    }
+
+    //REST Add
+    @ResponseBody
+    @PostMapping("/rest/add")
+    public Student addStudentRest(@RequestBody StudentCreateDto studentCreateDto) {
+        return studentService.saveOrUpdateStudent(studentCreateDto, null);
+    }
+
+    //REST Edit
+    @ResponseBody
+    @PostMapping("/rest/edit/{id}")
+    public Student editStudentRest(@PathVariable("id") int id, @RequestBody StudentCreateDto studentCreateDto) {
+        return studentService.saveOrUpdateStudent(studentCreateDto, id);
+    }
+
+    //REST DELETE
+    @ResponseBody
+    @DeleteMapping("/rest/delete/{id}")
+    public ResponseEntity<Void> deleteStudentRest(@PathVariable("id") int id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.noContent().build();
+    }
+
 
 
     @GetMapping

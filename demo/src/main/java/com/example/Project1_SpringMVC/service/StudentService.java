@@ -35,7 +35,7 @@ public class StudentService {
         studentRepository.deleteById(studentId);
     }
 
-    public void saveOrUpdateStudent(StudentCreateDto student, Integer id) {
+    public Student saveOrUpdateStudent(StudentCreateDto student, Integer id) {
         Student newStudent;
         if(id != null) {
             newStudent = this.getStudentById(id);
@@ -52,6 +52,7 @@ public class StudentService {
 //        TODO update subjects for the student
 
         studentRepository.save(newStudent);
+        return newStudent;
     }
 }
 
