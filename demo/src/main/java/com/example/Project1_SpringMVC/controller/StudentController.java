@@ -26,7 +26,6 @@ public class StudentController {
     @Autowired
     private SubjectService subjectService;
 
-
     @ResponseBody
     @GetMapping("/rest/all")
     public List<Student> getAllStudentsRest() {
