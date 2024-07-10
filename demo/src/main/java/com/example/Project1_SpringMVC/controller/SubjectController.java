@@ -50,6 +50,7 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
+    //Add
     @ResponseBody
     @PostMapping("/rest/add")
     public Subject addSubjectRest(@RequestBody SubjectCreateDto subjectCreateDto) {
@@ -70,6 +71,7 @@ public class SubjectController {
         }
     }
 
+    //Edit
     @ResponseBody
     @PostMapping("/rest/edit")
     public Subject editSubjectRest(@RequestBody SubjectCreateDto subject) {
@@ -82,6 +84,7 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
+    //Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteSubjectRest(@PathVariable("id") int id) {

@@ -1,5 +1,6 @@
 package com.example.Project1_SpringMVC.service;
 
+import com.example.Project1_SpringMVC.data.dtos.StudentGroupCreateDto;
 import com.example.Project1_SpringMVC.data.models.StudentGroup;
 import com.example.Project1_SpringMVC.repository.StudentGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,5 +32,9 @@ public class StudentGroupService {
 
     public void deleteStudentGroup(int id) {
         studentGroupRepository.deleteById((int) id);
+    }
+
+    public StudentGroup saveOrUpdateStudentGroup(StudentGroupCreateDto studentGroupCreateDto) {
+        return null;
     }
 }

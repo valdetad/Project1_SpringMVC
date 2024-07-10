@@ -45,6 +45,7 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
+    // Rest ADD
     @ResponseBody
     @PostMapping("/rest/add")
     public StudentGroup addStudentGroupRest(@RequestBody StudentGroupCreateDto studentGroupDto) {
@@ -63,6 +64,15 @@ public class StudentGroupController {
         }
     }
 
+    // REST Edit
+    @ResponseBody
+    @PostMapping("/rest/edit/{id}")
+    public StudentGroup editStudentGroupRest(@PathVariable("id") int id, @RequestBody StudentGroupCreateDto studentGroupCreateDto) {
+        StudentGroup studentGroup = mapToStudentGroup(studentGroupCreateDto);
+        studentGroup.setId(id);
+        return studentGroupService.saveOrUpdateStudentGroup(studentGroup);
+    }
+
     @PostMapping("/edit/{id}")
     public String editStudentGroup(@PathVariable("id") int id, @ModelAttribute("studentGroup") StudentGroupCreateDto studentGroupDto) {
         StudentGroup studentGroup = mapToStudentGroup(studentGroupDto);
@@ -77,6 +87,7 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
+    // Rest Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentGroupRest(@PathVariable("id") int id) {
