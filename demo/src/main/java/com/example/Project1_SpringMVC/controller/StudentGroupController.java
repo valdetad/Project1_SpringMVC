@@ -45,7 +45,7 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
-    // Rest ADD
+    // REST ADD
     @ResponseBody
     @PostMapping("/rest/add")
     public StudentGroup addStudentGroupRest(@RequestBody StudentGroupCreateDto studentGroupDto) {
@@ -87,7 +87,7 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
-    // Rest Delete
+    // REST Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentGroupRest(@PathVariable("id") int id) {
