@@ -2,14 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Student</title>
+    <title>Student</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container my-2">
     <div class="card">
         <div class="card-body">
-            <h2>Add Student</h2>
+            <h2>Student</h2>
             <form th:action="@{/student}" th:object="${newStudent}" method="post">
                 <div class="form-group">
                     <label for="id">Student ID</label>
