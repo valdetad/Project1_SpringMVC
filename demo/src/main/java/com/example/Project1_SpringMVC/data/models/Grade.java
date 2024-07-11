@@ -10,7 +10,6 @@ public class Grade {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     private double gradeValue;
 
     @ManyToOne

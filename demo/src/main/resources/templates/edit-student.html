@@ -19,10 +19,12 @@
                 <div class="form-group">
                     <label for="subjectIds">Subjects</label>
                     <select id="subjectIds" class="form-control" th:field="*{subjectIds}" required>
+                        <option value="" disabled>Select subject</option>
                         <option th:each="subject : ${subjects}"
                                 th:value="${subject.id}"
                                 th:text="${subject.name}"
-                                th:selected="${student.subjectIds != null and student.subjectIds.contains(subject.id)}">
+                                th:selected="${student.subjectIds == student.subjectIds}">
+                                //th:selected="${student.subjectIds = null and student.subjectIds.contains(subject.id)}">
                         </option>
                     </select>
                 </div>
