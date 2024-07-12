@@ -1,10 +1,14 @@
 package com.example.Project1_SpringMVC.service;
+
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
+import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.repository.StudentRepository;
+import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -13,13 +17,15 @@ import java.util.Optional;
 public class StudentService {
 
     private final StudentRepository studentRepository;
+    private final SubjectRepository subjectRepository;
 
     @Autowired
     private StudentGroupService studentGroupService;
 
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository, SubjectRepository subjectRepository) {
         this.studentRepository = studentRepository;
+        this.subjectRepository = subjectRepository;
     }
 
     public List<Student> getAllStudents() {
@@ -35,24 +41,32 @@ public class StudentService {
         studentRepository.deleteById(studentId);
     }
 
-    public Student saveOrUpdateStudent(StudentCreateDto student, Integer id) {
-        Student newStudent;
-        if(id != null) {
-            newStudent = this.getStudentById(id);
-        } else {
-            newStudent = new Student();
+    public Student saveOrUpdateStudent(StudentCreateDto studentDto, Integer id) {
+        if (studentDto.getSubjectIds() == null || studentDto.getSubjectIds().size() < 1) {
+            throw new IllegalArgumentException("A student must be assigned to at least two subjects.");
         }
-        newStudent.setFirstName(student.getFirstName());
-        newStudent.setLastName(student.getLastName());
-        newStudent.setEmail(student.getEmail());
-        newStudent.setBirthDate(student.getBirthDate());
-        newStudent.setStudentGroup(studentGroupService.getStudentGroupById(student.getStudentGroupId()));
 
-//        student.getSubjectIds()
-//        TODO update subjects for the student
+        Student student;
+        if (id != null) {
+            student = this.getStudentById(id);
+            if (student == null) {
+                throw new IllegalArgumentException("Student not found.");
+            }
+        } else {
+            student = new Student();
+        }
 
-        studentRepository.save(newStudent);
-        return newStudent;
+        student.setFirstName(studentDto.getFirstName());
+        student.setLastName(studentDto.getLastName());
+        student.setEmail(studentDto.getEmail());
+        student.setBirthDate(studentDto.getBirthDate());
+        student.setStudentGroup(studentGroupService.getStudentGroupById(studentDto.getStudentGroupId()));
+
+        // Update subjects for the student
+        List<Subject> subjects = subjectRepository.findAllById(studentDto.getSubjectIds());
+        student.setSubjects(subjects);
+
+        studentRepository.save(student);
+        return student;
     }
 }
-
