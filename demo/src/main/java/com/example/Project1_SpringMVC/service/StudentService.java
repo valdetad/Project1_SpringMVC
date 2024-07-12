@@ -43,7 +43,7 @@ public class StudentService {
 
     public Student saveOrUpdateStudent(StudentCreateDto studentDto, Integer id) {
         if (studentDto.getSubjectIds() == null || studentDto.getSubjectIds().size() < 1) {
-            throw new IllegalArgumentException("A student must be assigned to at least two subjects.");
+            throw new IllegalArgumentException("A student must be assigned to at least one subject.");
         }
 
         Student student;
@@ -62,7 +62,7 @@ public class StudentService {
         student.setBirthDate(studentDto.getBirthDate());
         student.setStudentGroup(studentGroupService.getStudentGroupById(studentDto.getStudentGroupId()));
 
-        // Update subjects for the student
+        //subjects for the student
         List<Subject> subjects = subjectRepository.findAllById(studentDto.getSubjectIds());
         student.setSubjects(subjects);
 
