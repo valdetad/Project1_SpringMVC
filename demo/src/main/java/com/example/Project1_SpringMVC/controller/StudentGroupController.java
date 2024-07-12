@@ -97,7 +97,7 @@ public class StudentGroupController {
             //specific exception for constraint violation
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
         } catch (Exception e) {
-           // other exceptions
+           // other exceptionss
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
         }
     }
