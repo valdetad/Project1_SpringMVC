@@ -1,8 +1,10 @@
 package com.example.Project1_SpringMVC.controller;
 import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
+import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -48,11 +50,12 @@ public class SubjectController {
         return "redirect:/subject";
     }
 
-    //REST Add
+    // REST Add 201 Created
     @ResponseBody
     @PostMapping("/rest/add")
-    public Subject addSubjectRest(@RequestBody SubjectCreateDto subjectCreateDto) {
-        return subjectService.saveOrUpdateSubject(subjectCreateDto);
+    public ResponseEntity<Subject> addSubjectRest(@RequestBody SubjectCreateDto subjectCreateDto) {
+        Subject savedSubject = subjectService.saveOrUpdateSubject(subjectCreateDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedSubject);
     }
 
     @GetMapping("/edit/{id}")

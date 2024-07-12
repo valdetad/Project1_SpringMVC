@@ -46,9 +46,10 @@ public class StudentGroupController {
     // REST ADD
     @ResponseBody
     @PostMapping("/rest/add")
-    public StudentGroup addStudentGroupRest(@RequestBody StudentGroupCreateDto studentGroupDto) {
+    public ResponseEntity<StudentGroup> addStudentGroupRest(@RequestBody StudentGroupCreateDto studentGroupDto) {
         StudentGroup studentGroup = mapToStudentGroup(studentGroupDto);
-        return studentGroupService.saveOrUpdateStudentGroup(studentGroup);
+        StudentGroup savedStudentGroup = studentGroupService.saveOrUpdateStudentGroup(studentGroup);
+        return ResponseEntity.status(201).body(savedStudentGroup); // 201 Created
     }
 
     @GetMapping("/edit/{id}")
@@ -65,10 +66,15 @@ public class StudentGroupController {
     // REST Edit
     @ResponseBody
     @PostMapping("/rest/edit/{id}")
-    public StudentGroup editStudentGroupRest(@PathVariable("id") int id, @RequestBody StudentGroupCreateDto studentGroupCreateDto) {
+    public ResponseEntity<StudentGroup> editStudentGroupRest(@PathVariable("id") int id, @RequestBody StudentGroupCreateDto studentGroupCreateDto) {
         StudentGroup studentGroup = mapToStudentGroup(studentGroupCreateDto);
         studentGroup.setId(id);
-        return studentGroupService.saveOrUpdateStudentGroup(studentGroup);
+        StudentGroup updatedStudentGroup = studentGroupService.saveOrUpdateStudentGroup(studentGroup);
+        if (updatedStudentGroup != null) {
+            return ResponseEntity.ok(updatedStudentGroup); // 200 OK
+        } else {
+            return ResponseEntity.notFound().build(); // 404 Not Found
+        }
     }
 
     @PostMapping("/edit/{id}")
@@ -79,19 +85,21 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
-    @GetMapping("/delete/{id}")
-    public String deleteStudentGroup(@PathVariable("id") int id) {
-        studentGroupService.deleteStudentGroup(id);
-        return "redirect:/student-group";
-    }
-
+    // REST Delete
     // REST Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentGroupRest(@PathVariable("id") int id) {
         studentGroupService.deleteStudentGroup(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
+
+    @GetMapping("/rest/delete/{id}")
+    public String deleteStudentGroup(@PathVariable("id") int id) {
+        studentGroupService.deleteStudentGroup(id);
+        return "redirect:/student-group";
+    }
+
 
     private StudentGroup mapToStudentGroup(StudentGroupCreateDto studentGroupDto) {
         StudentGroup studentGroup = new StudentGroup();

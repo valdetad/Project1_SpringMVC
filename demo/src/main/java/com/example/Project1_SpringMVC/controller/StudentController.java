@@ -5,6 +5,7 @@ import com.example.Project1_SpringMVC.service.StudentGroupService;
 import com.example.Project1_SpringMVC.service.StudentService;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,18 +31,24 @@ public class StudentController {
         return studentService.getAllStudents();
     }
 
-    // REST Add
+    // REST Add 201 Created
     @ResponseBody
     @PostMapping("/rest/add")
-    public Student addStudentRest(@RequestBody StudentCreateDto studentCreateDto) {
-        return studentService.saveOrUpdateStudent(studentCreateDto, null);
+    public ResponseEntity<Student> addStudentRest(@RequestBody StudentCreateDto studentCreateDto) {
+        Student savedStudent = studentService.saveOrUpdateStudent(studentCreateDto, null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedStudent);
     }
 
     // REST Edit
     @ResponseBody
     @PostMapping("/rest/edit/{id}")
-    public Student editStudentRest(@PathVariable("id") int id, @RequestBody StudentCreateDto studentCreateDto) {
-        return studentService.saveOrUpdateStudent(studentCreateDto, id);
+    public ResponseEntity<Student> editStudentRest(@PathVariable("id") int id, @RequestBody StudentCreateDto studentCreateDto) {
+        Student updatedStudent = studentService.saveOrUpdateStudent(studentCreateDto, id);
+        if (updatedStudent != null) {
+            return ResponseEntity.ok(updatedStudent); // 200 OK
+        } else {
+            return ResponseEntity.notFound().build(); // 404 Not Found
+        }
     }
 
     // REST Delete
@@ -49,7 +56,7 @@ public class StudentController {
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentRest(@PathVariable("id") int id) {
         studentService.deleteStudent(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 
     @GetMapping
