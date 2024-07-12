@@ -29,14 +29,16 @@ public class StudentGroupController {
         List<StudentGroup> studentGroups = studentGroupService.getAllStudentGroups();
         model.addAttribute("studentGroups", studentGroups);
         model.addAttribute("newStudentGroup", new StudentGroupCreateDto());
-        return "groups";
+        return "groups"; // returns groups.html Thymeleaf template
     }
+
 
     @GetMapping("/add")
     public String showAddStudentGroupForm(Model model) {
         model.addAttribute("studentGroup", new StudentGroupCreateDto());
         return "add-group";
     }
+
 
     @PostMapping("/add")
     public String addStudentGroup(@ModelAttribute("studentGroup") StudentGroupCreateDto studentGroupDto) {
@@ -45,7 +47,7 @@ public class StudentGroupController {
         return "redirect:/student-group";
     }
 
-    // REST ADD
+    // REST Add
     @ResponseBody
     @PostMapping("/rest/add")
     public ResponseEntity<StudentGroup> addStudentGroupRest(@RequestBody StudentGroupCreateDto studentGroupDto) {
@@ -59,9 +61,9 @@ public class StudentGroupController {
         StudentGroup existingStudentGroup = studentGroupService.getStudentGroupById(id);
         if (existingStudentGroup != null) {
             model.addAttribute("studentGroup", existingStudentGroup);
-            return "edit-group";
+            return "edit-group"; // returns edit-group.html Thymeleaf template
         } else {
-            return "redirect:/student-group";
+            return "redirect:/student-group"; // Redirects to GET /student-group if student group not found
         }
     }
 
@@ -84,7 +86,7 @@ public class StudentGroupController {
         StudentGroup studentGroup = mapToStudentGroup(studentGroupDto);
         studentGroup.setId(id);
         studentGroupService.saveOrUpdateStudentGroup(studentGroup);
-        return "redirect:/student-group";
+        return "redirect:/student-group"; // Redirects to GET /student-group
     }
 
     // REST Delete
@@ -94,19 +96,19 @@ public class StudentGroupController {
             studentGroupService.deleteStudentGroup(id);
             return ResponseEntity.noContent().build(); // 204 No Content
         } catch (DataIntegrityViolationException e) {
-            //specific exception for constraint violation
+            // Handle specific exception for constraint violation
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
         } catch (Exception e) {
-           // other exceptionss
+            // Handle other exceptions
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
         }
     }
 
 
-    @GetMapping("/rest/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteStudentGroup(@PathVariable("id") int id) {
         studentGroupService.deleteStudentGroup(id);
-        return "redirect:/student-group";
+        return "redirect:/student-group"; // Redirects to GET /student-group
     }
 
 
@@ -114,11 +116,5 @@ public class StudentGroupController {
         StudentGroup studentGroup = new StudentGroup();
         studentGroup.setName(studentGroupDto.getName());
         return studentGroup;
-    }
-
-    private StudentGroupCreateDto mapToStudentGroupCreateDto(StudentGroup studentGroup) {
-        StudentGroupCreateDto studentGroupDto = new StudentGroupCreateDto();
-        studentGroupDto.setName(studentGroup.getName());
-        return studentGroupDto;
     }
 }

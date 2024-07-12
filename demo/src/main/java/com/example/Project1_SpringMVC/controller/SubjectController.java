@@ -1,5 +1,4 @@
 package com.example.Project1_SpringMVC.controller;
-
 import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.service.SubjectService;
