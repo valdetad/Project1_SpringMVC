@@ -3,6 +3,8 @@ import com.example.Project1_SpringMVC.data.dtos.StudentGroupCreateDto;
 import com.example.Project1_SpringMVC.data.models.StudentGroup;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -86,13 +88,20 @@ public class StudentGroupController {
     }
 
     // REST Delete
-    // REST Delete
-    @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteStudentGroupRest(@PathVariable("id") int id) {
-        studentGroupService.deleteStudentGroup(id);
-        return ResponseEntity.noContent().build(); // 204 No Content
+        try {
+            studentGroupService.deleteStudentGroup(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (DataIntegrityViolationException e) {
+            //specific exception for constraint violation
+            return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
+        } catch (Exception e) {
+           // other exceptions
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
+        }
     }
+
 
     @GetMapping("/rest/delete/{id}")
     public String deleteStudentGroup(@PathVariable("id") int id) {

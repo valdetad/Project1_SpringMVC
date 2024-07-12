@@ -1,6 +1,6 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
-import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -72,25 +73,36 @@ public class SubjectController {
         }
     }
 
-    //REST Edit
+    // REST Edit
     @ResponseBody
-    @PostMapping("/rest/edit")
-    public Subject editSubjectRest(@RequestBody SubjectCreateDto subject) {
-        return subjectService.saveOrUpdateSubject(subject);
+    @PostMapping("/rest/edit/{id}")
+    public ResponseEntity<?> editSubjectRest(@PathVariable("id") int id, @RequestBody SubjectCreateDto subjectDto) {
+        Subject updatedSubject = subjectService.saveOrUpdateSubject(subjectDto);
+
+        if (updatedSubject != null) {
+            return ResponseEntity.ok(updatedSubject); // 200 OK
+        } else {
+            return ResponseEntity.notFound().build(); // 404 Not Found
+        }
     }
 
+    // REST Edit
     @PostMapping("/edit/{id}")
     public String editSubject(@PathVariable("id") int id, @ModelAttribute("subject") SubjectCreateDto subject) {
-        subjectService.saveOrUpdateSubject(subject);
-        return "redirect:/subject";
+        Subject updatedSubject = subjectService.saveOrUpdateSubject(subject);
+        if (updatedSubject != null) {
+            return "redirect:/subject"; // 200 OK
+        } else {
+            return "redirect:/subject/edit/" + id;
+        }
     }
 
-    //REST Delete
+    // REST Delete
     @ResponseBody
     @DeleteMapping("/rest/delete/{id}")
     public ResponseEntity<Void> deleteSubjectRest(@PathVariable("id") int id) {
         subjectService.deleteSubject(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.noContent().build(); // 204 No Content
     }
 
     @GetMapping("/delete/{id}")
