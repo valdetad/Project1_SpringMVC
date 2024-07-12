@@ -70,7 +70,7 @@
                     <td th:text="${student.lastName}"></td>
                     <td th:text="${student.email}"></td>
                     <td th:text="${student.birthDate}"></td>
-                    <td th:text="${student.studentGroup.name}"></td>
+<!--                    <td th:text="${student.studentGroup.name}"></td>-->
                     <td>
                         <a th:href="@{/student/edit/{id}(id=${student.id})}" class="btn btn-success">Edit</a>
                         <a th:href="@{/student/delete/{id}(id=${student.id})}" class="btn btn-danger">Delete</a>
