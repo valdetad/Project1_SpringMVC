@@ -61,9 +61,9 @@ public class StudentGroupController {
         StudentGroup existingStudentGroup = studentGroupService.getStudentGroupById(id);
         if (existingStudentGroup != null) {
             model.addAttribute("studentGroup", existingStudentGroup);
-            return "edit-group"; // returns edit-group.html Thymeleaf template
+            return "edit-group";
         } else {
-            return "redirect:/student-group"; // Redirects to GET /student-group if student group not found
+            return "redirect:/student-group";
         }
     }
 
@@ -86,7 +86,7 @@ public class StudentGroupController {
         StudentGroup studentGroup = mapToStudentGroup(studentGroupDto);
         studentGroup.setId(id);
         studentGroupService.saveOrUpdateStudentGroup(studentGroup);
-        return "redirect:/student-group"; // Redirects to GET /student-group
+        return "redirect:/student-group";
     }
 
     // REST Delete
@@ -108,7 +108,7 @@ public class StudentGroupController {
     @GetMapping("/delete/{id}")
     public String deleteStudentGroup(@PathVariable("id") int id) {
         studentGroupService.deleteStudentGroup(id);
-        return "redirect:/student-group"; // Redirects to GET /student-group
+        return "redirect:/student-group";
     }
 
 
