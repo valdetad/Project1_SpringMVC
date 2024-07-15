@@ -29,7 +29,7 @@ public class StudentGroupController {
         List<StudentGroup> studentGroups = studentGroupService.getAllStudentGroups();
         model.addAttribute("studentGroups", studentGroups);
         model.addAttribute("newStudentGroup", new StudentGroupCreateDto());
-        return "groups"; // returns groups.html Thymeleaf template
+        return "groups";
     }
 
 
