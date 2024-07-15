@@ -9,18 +9,22 @@
 <body>
 <div class="container mt-5">
     <h2>Add Grade</h2>
-    <form th:action="@{/grades/save}" th:object="${newGrade}" method="post" class="needs-validation" novalidate>
+    <form th:action="@{/grade}" th:object="${newGrade}" method="post" class="needs-validation" novalidate>
         <div class="form-group">
             <label for="gradeValue">Grade Value</label>
             <input type="text" class="form-control" id="gradeValue" th:field="*{gradeValue}" placeholder="Grade Value" required>
         </div>
         <div class="form-group">
             <label for="studentId">Student ID</label>
-            <input type="text" class="form-control" id="studentId" th:field="*{studentId}" placeholder="Student ID" required>
+            <select class="form-control" id="studentId" th:field="*{studentId}" required>
+                <option th:each="student : ${students}" th:value="${student.id}" th:text="${student.firstName} + ' ' + ${student.lastName}"></option>
+            </select>
         </div>
         <div class="form-group">
             <label for="subjectId">Subject ID</label>
-            <input type="text" class="form-control" id="subjectId" th:field="*{subjectId}" placeholder="Subject ID" required>
+            <select class="form-control" id="subjectId" th:field="*{subjectId}" required>
+                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+            </select>
         </div>
         <button type="submit" class="btn btn-primary">Add Grade</button>
         <button type="button" class="btn btn-secondary">Cancel</button>

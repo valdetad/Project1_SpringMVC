@@ -1,4 +1,5 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.GradeCreateDto;
 import com.example.Project1_SpringMVC.data.models.Grade;
 import com.example.Project1_SpringMVC.service.GradeService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -35,7 +37,7 @@ public class GradeController {
 
     @PostMapping
     public String saveGrade(@ModelAttribute("newGrade") GradeCreateDto grade) {
-        gradeService.saveOrUpdateGrade(grade, null);
+        gradeService.saveOrUpdateGrade(grade);
         return "redirect:/grade";
     }
 
@@ -57,7 +59,8 @@ public class GradeController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateGrade(@PathVariable("id") int id, @ModelAttribute("grade") GradeCreateDto grade) {gradeService.saveOrUpdateGrade(grade, id);
+    public String updateGrade(@PathVariable("id") int id, @ModelAttribute("grade") GradeCreateDto grade) {
+        gradeService.saveOrUpdateGrade(grade, id);
         return "redirect:/grade";
     }
 
