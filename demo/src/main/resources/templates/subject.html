@@ -13,6 +13,26 @@
     <div class="card">
         <div class="card-body">
             <h2>Subjects</h2>
+
+            <!-- Filter form for Subject -->
+            <form action="/subject/filter" method="get" class="mb-4">
+                <div class="form-row align-items-end">
+                    <div class="col-md-4">
+                        <label for="subjectName">Subject Name</label>
+                        <input type="text" id="subjectName" name="name" class="form-control" placeholder="Subject Name">
+                    </div>
+                    <div class="col-md-4">
+                        <label for="groupName">Assigned Group Name</label>
+                        <input type="text" id="groupName" name="groupName" class="form-control" placeholder="Group Name">
+                    </div>
+                    <div class="col-md-4">
+                        <button type="submit" class="btn btn-primary mt-4">Apply Filters</button>
+                        <a href="/subject" class="btn btn-secondary mt-4 ml-2">Clear Filters</a>
+                    </div>
+                </div>
+            </form>
+
+            <!-- Add Subject form -->
             <form th:action="@{/subject}" th:object="${newSubject}" method="post">
                 <div class="form-group">
                     <label for="name">Name</label>
@@ -20,6 +40,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Add Subject</button>
             </form>
+
             <h3 class="mt-4">Subject List</h3>
             <table class="table">
                 <thead>
@@ -34,7 +55,6 @@
                     <td>
                         <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success">Edit</a>
                         <a th:href="@{/subject/delete/{id}(id=${subject.id})}" class="btn btn-danger">Delete</a>
-
                     </td>
                 </tr>
                 </tbody>
