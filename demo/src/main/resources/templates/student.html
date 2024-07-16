@@ -19,7 +19,7 @@
             <!-- Filter form (hidden by default) -->
             <div id="filterForm" class="collapse">
                 <form th:action="@{/student/filter}" method="get">
-                    <div class="row">
+                    <div class="form-row align-items-end">
                         <div class="form-group col-md-4">
                             <label for="filterName">Filter by Name</label>
                             <input type="text" class="form-control" id="filterName" name="name" placeholder="Enter name">
@@ -38,8 +38,11 @@
                                 <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
                             </select>
                         </div>
+                        <div class="form-group col-md-4">
+                            <button type="submit" class="btn btn-success mr-2">Apply Filter</button>
+                            <a href="/student" class="btn btn-secondary mt-2 mt-md-0">Clear Filters</a>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-secondary">Apply Filter</button>
                 </form>
             </div>
 
