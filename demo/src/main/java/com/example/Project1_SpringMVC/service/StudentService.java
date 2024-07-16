@@ -8,7 +8,6 @@ import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -42,7 +41,7 @@ public class StudentService {
     }
 
     public Student saveOrUpdateStudent(StudentCreateDto studentDto, Integer id) {
-        if (studentDto.getSubjectIds() == null || studentDto.getSubjectIds().size() < 1) {
+        if (studentDto.getSubjectIds() == null || studentDto.getSubjectIds().isEmpty()) {
             throw new IllegalArgumentException("A student must be assigned to at least one subject.");
         }
 
@@ -56,13 +55,14 @@ public class StudentService {
             student = new Student();
         }
 
+
+
         student.setFirstName(studentDto.getFirstName());
         student.setLastName(studentDto.getLastName());
         student.setEmail(studentDto.getEmail());
         student.setBirthDate(studentDto.getBirthDate());
         student.setStudentGroup(studentGroupService.getStudentGroupById(studentDto.getStudentGroupId()));
 
-        //subjects for the student
         List<Subject> subjects = subjectRepository.findAllById(studentDto.getSubjectIds());
         student.setSubjects(subjects);
 

@@ -27,6 +27,8 @@ public class StudentController {
     @Autowired
     private SubjectService subjectService;
 
+    // REST API Endpoints
+
     @ResponseBody
     @GetMapping("/rest/all")
     public List<Student> getAllStudentsRest() {
@@ -73,7 +75,7 @@ public class StudentController {
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
-        return "student";
+        return "student"; // Assuming "student.html" is your view
     }
 
     @PostMapping
