@@ -16,7 +16,7 @@
                 <button class="btn btn-primary" data-toggle="collapse" data-target="#filterForm">Filter Students</button>
             </div>
 
-            <!-- Filter form (hidden by default) -->
+            <!-- Filter for Student -->
             <div id="filterForm" class="collapse">
                 <form th:action="@{/student/filter}" method="get">
                     <div class="form-row align-items-end">
@@ -35,7 +35,6 @@
                             <label for="filterSubject">Filter by Subject</label>
                             <select id="filterSubject" class="form-control" name="subjectId">
                                 <option value="">All</option>
-                                <!-- Iterate over existing subjects -->
                                 <option th:each="subject : ${existingSubjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
                             </select>
                         </div>
