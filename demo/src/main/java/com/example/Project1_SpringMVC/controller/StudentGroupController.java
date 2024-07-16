@@ -96,10 +96,9 @@ public class StudentGroupController {
             studentGroupService.deleteStudentGroup(id);
             return ResponseEntity.noContent().build(); // 204 No Content
         } catch (DataIntegrityViolationException e) {
-            // Handle specific exception for constraint violation
+            //specific exception for violation
             return ResponseEntity.status(HttpStatus.CONFLICT).build(); // 409 Conflict
         } catch (Exception e) {
-            // Handle other exceptions
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
         }
     }
