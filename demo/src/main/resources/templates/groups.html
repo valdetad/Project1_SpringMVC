@@ -16,7 +16,7 @@
                 <button class="btn btn-primary" data-toggle="collapse" data-target="#filterForm">Filter Groups</button>
             </div>
 
-            <!-- Filter form (hidden by default) -->
+            <!-- Filter form (it is default default hidden) -->
             <div id="filterForm" class="collapse">
                 <form action="/student-group/filter" method="get">
                     <div class="form-row align-items-end">
@@ -36,7 +36,7 @@
                 </form>
             </div>
 
-            <!-- Add Group form -->
+            <!-- Add Student Group form -->
             <h4>Add Group</h4>
             <form th:action="@{/student-group/add}" method="post">
                 <div class="form-group">
@@ -45,29 +45,29 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Save</button>
             </form>
+
+            <!-- Student groups List -->
+            <table class="table mt-3">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="group : ${studentGroups}">
+                    <td th:text="${group.id}"></td>
+                    <td th:text="${group.name}"></td>
+                    <td>
+                        <a th:href="@{/student-group/edit/{id}(id=${group.id})}" class="btn btn-success">Edit</a>
+                        <a th:href="@{/student-group/delete/{id}(id=${group.id})}" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-
-    <!-- Table of student groups -->
-    <table class="table mt-3">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="group : ${studentGroups}">
-            <td th:text="${group.id}"></td>
-            <td th:text="${group.name}"></td>
-            <td>
-                <a th:href="@{/student-group/edit/{id}(id=${group.id})}" class="btn btn-success">Edit</a>
-                <a th:href="@{/student-group/delete/{id}(id=${group.id})}" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
