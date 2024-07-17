@@ -14,6 +14,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/student")
+
 public class StudentController {
 
     @Autowired
@@ -64,16 +65,15 @@ public class StudentController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
-    // Get all students or filter students
     @GetMapping
     public String getAllStudents(
-            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "findByFirstNameAndLastName", required = false) String firstName ,
             @RequestParam(value = "studentGroupId", required = false) Integer studentGroupId,
             @RequestParam(value = "subjectId", required = false) Integer subjectId,
             Model model) {
         List<Student> students;
         if (firstName != null || studentGroupId != null || subjectId != null) {
-            students = studentService.filterStudents(firstName, studentGroupId, subjectId);
+            students = studentService.filterStudents(firstName, null, studentGroupId, subjectId);
         } else {
             students = studentService.getAllStudents();
         }
@@ -85,14 +85,11 @@ public class StudentController {
     }
 
     @PostMapping
-    public String saveStudent(@ModelAttribute("student") StudentCreateDto student, Model model) {
+    public String saveStudent(@ModelAttribute("newStudent") StudentCreateDto studentDto, Model model) {
         try {
-            studentService.saveOrUpdateStudent(student, null);
+            studentService.saveOrUpdateStudent(studentDto, null);
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
-            model.addAttribute("subjects", subjectService.getAllSubjects());
-            return "student";
         }
         return "redirect:/student";
     }
@@ -118,26 +115,18 @@ public class StudentController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateStudent(@PathVariable("id") int id, @ModelAttribute("student") StudentCreateDto student, Model model) {
+    public String updateStudent(@PathVariable("id") int id, @ModelAttribute("student") StudentCreateDto studentDto, Model model) {
         try {
-            studentService.saveOrUpdateStudent(student, id);
-            return "redirect:/student";
+            studentService.saveOrUpdateStudent(studentDto, id);
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
-            model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
-            model.addAttribute("subjects", subjectService.getAllSubjects());
-            return "edit-student";
         }
+        return "redirect:/student";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteStudent(@PathVariable("id") int id, Model model) {
         studentService.deleteStudent(id);
-        List<Student> students = studentService.getAllStudents();
-        model.addAttribute("students", students);
-        model.addAttribute("newStudent", new StudentCreateDto());
-        model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
-        model.addAttribute("subjects", subjectService.getAllSubjects());
         return "redirect:/student";
     }
 }
