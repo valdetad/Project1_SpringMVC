@@ -105,7 +105,6 @@ public class GradeController {
             // Handle specific exception for entity not found
             return ResponseEntity.notFound().build(); // 404 Not Found
         } catch (Exception e) {
-            // Handle other exceptions
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build(); // 500 Internal Server Error
         }
     }

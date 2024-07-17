@@ -73,7 +73,7 @@ public class StudentController {
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
-        return "student"; // Assuming "student.html" is your view
+        return "student";
     }
 
     @PostMapping
