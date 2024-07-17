@@ -20,19 +20,27 @@
             <div id="filterForm" class="collapse">
                 <form th:action="@{/student/filter}" method="get">
                     <div class="form-row">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label for="filterStudentGroup">Filter by Student Group</label>
                             <select id="filterStudentGroup" class="form-control" name="studentGroupId">
                                 <option value="">All</option>
                                 <option th:each="group : ${studentGroups}" th:value="${group.id}" th:text="${group.name}"></option>
                             </select>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label for="filterSubject">Filter by Subject</label>
+                            <select id="filterSubject" class="form-control" name="subjectId">
+                                <option value="">All</option>
+                                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"></option>
+                            </select>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label for="filterName">Filter by Name</label>
                             <input type="text" class="form-control" id="filterName" name="name" placeholder="Enter name">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-secondary">Apply Filter</button>
+                    <button type="reset" class="btn btn-grey">Clear Filters</button>
                 </form>
             </div>
 
