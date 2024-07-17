@@ -9,8 +9,8 @@ import java.util.List;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
-    List<Student> findByFirstNameContainingAndLastNameContainingAndEmailContaining(String firstName, String lastName, String email);
-    List<Student> findByFirstNameContainingAndLastNameContainingAndEmailContainingAndStudentGroupIdAndSubjectsIdIn(
-            String firstName, String lastName, String email, Integer studentGroupId, List<Integer> subjectIds);
+    List<Student> findByFirstName(String firstName);
+    List<Student> findByStudentGroupId(Integer studentGroupId);
+    List<Student> findBySubjectsId(Integer subjectId);
 
 }

@@ -1,5 +1,4 @@
 package com.example.Project1_SpringMVC.controller;
-
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -66,14 +64,24 @@ public class StudentController {
         return ResponseEntity.noContent().build(); // 204 No Content
     }
 
+    // Get all students or filter students
     @GetMapping
-    public String getAllStudents(Model model) {
-        List<Student> students = studentService.getAllStudents();
+    public String getAllStudents(
+            @RequestParam(value = "firstName", required = false) String firstName,
+            @RequestParam(value = "studentGroupId", required = false) Integer studentGroupId,
+            @RequestParam(value = "subjectId", required = false) Integer subjectId,
+            Model model) {
+        List<Student> students;
+        if (firstName != null || studentGroupId != null || subjectId != null) {
+            students = studentService.filterStudents(firstName, studentGroupId, subjectId);
+        } else {
+            students = studentService.getAllStudents();
+        }
         model.addAttribute("students", students);
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
-        return "student"; // Assuming "student.html" is your view
+        return "student";
     }
 
     @PostMapping
@@ -113,13 +121,13 @@ public class StudentController {
     public String updateStudent(@PathVariable("id") int id, @ModelAttribute("student") StudentCreateDto student, Model model) {
         try {
             studentService.saveOrUpdateStudent(student, id);
+            return "redirect:/student";
         } catch (IllegalArgumentException e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
             model.addAttribute("subjects", subjectService.getAllSubjects());
             return "edit-student";
         }
-        return "redirect:/student";
     }
 
     @GetMapping("/delete/{id}")
