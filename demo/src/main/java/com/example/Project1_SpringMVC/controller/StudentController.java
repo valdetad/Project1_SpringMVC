@@ -27,8 +27,6 @@ public class StudentController {
     @Autowired
     private SubjectService subjectService;
 
-    // REST API Endpoints
-
     @ResponseBody
     @GetMapping("/rest/all")
     public List<Student> getAllStudentsRest() {
