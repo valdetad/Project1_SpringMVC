@@ -67,14 +67,19 @@ public class StudentController {
     }
 
     @GetMapping
-    public String getAllStudents(Model model) {
-        List<Student> students = studentService.getAllStudents();
+    public String getAllStudents(@RequestParam(required = false) String firstName,
+                                 @RequestParam(required = false) String lastName,
+                                 @RequestParam(required = false) Integer studentGroupId,
+                                 @RequestParam(required = false) Integer subjectId,
+                                 Model model) {
+        List<Student> students = studentService.filterStudents(firstName, lastName, studentGroupId, subjectId);
         model.addAttribute("students", students);
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
         return "student";
     }
+
 
     @PostMapping
     public String saveStudent(@ModelAttribute("student") StudentCreateDto student, Model model) {

@@ -34,9 +34,9 @@ public class StudentService {
         if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
             return studentRepository.findByFirstNameAndLastName(firstName, lastName);
         } else if (firstName != null && !firstName.isEmpty()) {
-            return studentRepository.findByFirstNameAndLastName(firstName, lastName);
+            return studentRepository.findByFirstName(firstName);
         } else if (lastName != null && !lastName.isEmpty()) {
-            return studentRepository.findByFirstNameAndLastName(lastName, lastName);
+            return studentRepository.findByLastName(lastName);
         } else if (studentGroupId != null) {
             return studentRepository.findByStudentGroupId(studentGroupId);
         } else if (subjectId != null) {
@@ -45,6 +45,7 @@ public class StudentService {
             return getAllStudents();
         }
     }
+
 
     public Student getStudentById(int studentId) {
         Optional<Student> student = studentRepository.findById(studentId);
