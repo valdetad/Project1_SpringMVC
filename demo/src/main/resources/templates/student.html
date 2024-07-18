@@ -17,18 +17,22 @@
         </div>
         <div class="form-group mr-2">
             <label for="filterStudentGroupId" class="mr-2">Student Group:</label>
-            <select class="form-control" id="filterStudentGroupId" name="studentGroupId">
-                <option value="">All</option>
-                <option th:each="group : ${studentGroups}" th:value="${group.id}" th:text="${group.name}"
-                        th:selected="${param.studentGroupId} == ${group.id}"></option>
+            <select class="form-control" id="filterStudentGroupId" name="studentGroupId" onchange="this.form.submit()" required>
+                <option value="" disabled th:selected="${param.studentGroupId == null}">Select a student group</option>
+                <option th:each="group : ${studentGroups}"
+                        th:value="${group.id}"
+                        th:text="${group.name}"
+                        th:selected="${param.studentGroupId != null and param.studentGroupId.toString() == group.id.toString()}">
+                </option>
             </select>
         </div>
+
         <div class="form-group mr-2">
-            <label for="filterSubjectId" class="mr-2">Subject:</label>
+            <label for="filterSubjectId" class="mr-2">Subjects:</label>
             <select class="form-control" id="filterSubjectId" name="subjectId">
                 <option value="">All</option>
                 <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"
-                        th:selected="${param.subjectId} == ${subject.id}"></option>
+                        th:selected="${param.subjectId} == ${subject.id} "></option>
             </select>
         </div>
         <button type="submit" class="btn btn-primary mr-2">Filter</button>
@@ -87,8 +91,11 @@
             <div class="form-group">
                 <label for="addStudentGroupId">Student Group</label>
                 <select id="addStudentGroupId" class="form-control" th:field="*{studentGroupId}" required>
-                    <option value="" disabled selected>Select a student group</option>
-                    <option th:each="group : ${studentGroups}" th:value="${group.id}" th:text="${group.name}"></option>
+                    <option value="" disabled>Select a student group</option>
+                    <option th:each="group : ${studentGroups}"
+                            th:value="${group.id}"
+                            th:text="${group.name}"
+                            th:selected="${group.id == newStudent.studentGroupId}"></option>
                 </select>
             </div>
             <div class="form-group">
@@ -102,5 +109,6 @@
     </div>
 
 </div>
+
 </body>
 </html>
