@@ -15,6 +15,7 @@
             <label for="filterFirstName" class="mr-2">Name:</label>
             <input type="text" class="form-control" id="filterFirstName" name="firstName" th:value="${param.firstName}">
         </div>
+
         <div class="form-group mr-2">
             <label for="filterStudentGroupId" class="mr-2">Student Group:</label>
             <select class="form-control" id="filterStudentGroupId" name="studentGroupId" onchange="this.form.submit()" required>
@@ -27,12 +28,15 @@
             </select>
         </div>
 
+
         <div class="form-group mr-2">
             <label for="filterSubjectId" class="mr-2">Subjects:</label>
-            <select class="form-control" id="filterSubjectId" name="subjectId">
-                <option value="">All</option>
-                <option th:each="subject : ${subjects}" th:value="${subject.id}" th:text="${subject.name}"
-                        th:selected="${param.subjectId} == ${subject.id} "></option>
+            <select class="form-control" id="filterSubjectId" name="subjectId" onchange="this.form.submit()" required>
+                <option value="" disabled th:selected="${param.subjectId == null}">Select a subject</option>
+                <option th:each="subject : ${subjects}"
+                        th:value="${subject.id}"
+                        th:text="${subject.name}"
+                        th:selected="${param.subjectId != null and param.subjectId.toString() == subject.id.toString()}">
             </select>
         </div>
         <button type="submit" class="btn btn-primary mr-2">Filter</button>
