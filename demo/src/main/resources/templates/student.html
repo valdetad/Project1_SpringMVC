@@ -18,7 +18,7 @@
 
         <div class="form-group mr-2">
             <label for="filterStudentGroupId" class="mr-2">Student Group:</label>
-            <select class="form-control" id="filterStudentGroupId" name="studentGroupId" onchange="this.form.submit()" required>
+            <select class="form-control" id="filterStudentGroupId" name="studentGroupId" onchange="this.form.submit()" >
                 <option value="" disabled th:selected="${param.studentGroupId == null}">Select a student group</option>
                 <option th:each="group : ${studentGroups}"
                         th:value="${group.id}"
@@ -31,7 +31,7 @@
 
         <div class="form-group mr-2">
             <label for="filterSubjectId" class="mr-2">Subjects:</label>
-            <select class="form-control" id="filterSubjectId" name="subjectId" onchange="this.form.submit()" required>
+            <select class="form-control" id="filterSubjectId" name="subjectId" onchange="this.form.submit()" >
                 <option value="" disabled th:selected="${param.subjectId == null}">Select a subject</option>
                 <option th:each="subject : ${subjects}"
                         th:value="${subject.id}"
