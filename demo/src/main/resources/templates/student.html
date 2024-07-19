@@ -9,16 +9,16 @@
 <div class="container my-4">
     <h2>Students</h2>
 
-    <!-- Filter -->
-    <form method="get" th:action="@{/student}" class="form-inline mb-4">
+    <!--Filter-->
+    <form th:action="@{/student}" method="get" class="form-inline mb-4">
         <div class="form-group mr-2">
-            <label for="filterFirstName" class="mr-2">Name:</label>
-            <input type="text" class="form-control" id="filterFirstName" name="firstName" th:value="${param.firstName}">
+            <label for="name" class="mr-2">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" th:value="${param.name}" oninput="this.form.submit()">
         </div>
 
         <div class="form-group mr-2">
-            <label for="filterStudentGroupId" class="mr-2">Student Group:</label>
-            <select class="form-control" id="filterStudentGroupId" name="studentGroupId" onchange="this.form.submit()" >
+            <label for="studentGroupId" class="mr-2">Student Group</label>
+            <select class="form-control" id="studentGroupId" name="studentGroupId"  onchange="this.form.submit()" >
                 <option value="" th:selected="${param.studentGroupId == null}">Select a student group</option>
                 <option th:each="group : ${studentGroups}"
                         th:value="${group.id}"
@@ -28,26 +28,28 @@
             </select>
         </div>
 
-
         <div class="form-group mr-2">
-            <label for="filterSubjectId" class="mr-2">Subjects:</label>
-            <select class="form-control" id="filterSubjectId" name="subjectId" onchange="this.form.submit()" >
+            <label for="subjectId" class="mr-2">Subjects:</label>
+            <select class="form-control" id="subjectId" name="subjectId" onchange="this.form.submit()">
                 <option value="" th:selected="${param.subjectId == null}">Select a subject</option>
                 <option th:each="subject : ${subjects}"
                         th:value="${subject.id}"
                         th:text="${subject.name}"
                         th:selected="${param.subjectId != null and param.subjectId.toString() == subject.id.toString()}">
+                </option>
             </select>
         </div>
+
         <button type="submit" class="btn btn-primary mr-2">Filter</button>
         <a href="/student" class="btn btn-secondary">Clear Filters</a>
     </form>
+
 
     <!-- Students Table -->
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>ID</th>
+            <th>Student ID</th>
             <th>First Name</th>
             <th>Last Name</th>
             <th>Email</th>
@@ -58,19 +60,20 @@
         </thead>
         <tbody>
         <tr th:each="student : ${students}">
-            <td th:text="${student.id}"></td>
-            <td th:text="${student.firstName}"></td>
-            <td th:text="${student.lastName}"></td>
-            <td th:text="${student.email}"></td>
-            <td th:text="${student.birthDate}"></td>
-            <td th:text="${student.studentGroup.name}"></td>
+            <td th:text="${student.id}">1</td>
+            <td th:text="${student.firstName}">John</td>
+            <td th:text="${student.lastName}">Doe</td>
+            <td th:text="${student.email}">john.doe@example.com</td>
+            <td th:text="${student.birthDate}">1990-01-01</td>
+            <td th:text="${student.studentGroup.name}">Group A</td>
             <td>
-                <a th:href="@{/student/edit/{id}(id=${student.id})}" class="btn btn-primary btn-sm">Edit</a>
+                <a th:href="@{/student/edit/{id}(id=${student.id})}" class="btn btn-success btn-sm">Edit</a>
                 <a th:href="@{/student/delete/{id}(id=${student.id})}" class="btn btn-danger btn-sm">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
+
 
     <!-- Add New Student Form -->
     <div class="mt-4">
@@ -80,17 +83,21 @@
                 <label for="addFirstName">First Name</label>
                 <input type="text" class="form-control" id="addFirstName" th:field="*{firstName}" placeholder="First Name" required>
             </div>
+
             <div class="form-group">
                 <label for="addLastName">Last Name</label>
                 <input type="text" class="form-control" id="addLastName" th:field="*{lastName}" placeholder="Last Name" required>
             </div>
+
             <div class="form-group">
                 <label for="addEmail">Email</label>
                 <input type="email" class="form-control" id="addEmail" th:field="*{email}" placeholder="Email" required>
             </div>
+
             <div class="form-group">
                 <label for="addBirthDate">Birthdate</label>
                 <input type="date" class="form-control" id="addBirthDate" th:field="*{birthDate}">
+
             </div>
             <div class="form-group">
                 <label for="addStudentGroupId">Student Group</label>
@@ -102,6 +109,7 @@
                             th:selected="${group.id == newStudent.studentGroupId}"></option>
                 </select>
             </div>
+
             <div class="form-group">
                 <label for="addSubjectIds">Subjects</label>
                 <select id="addSubjectIds" class="form-control" th:field="*{subjectIds}" multiple required>
@@ -111,8 +119,6 @@
             <button type="submit" class="btn btn-primary">Add Student</button>
         </form>
     </div>
-
 </div>
-
 </body>
 </html>
