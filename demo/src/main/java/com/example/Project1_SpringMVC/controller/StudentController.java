@@ -1,4 +1,5 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
@@ -66,19 +67,17 @@ public class StudentController {
     }
 
     @GetMapping
-    public String getAllStudents(@RequestParam(required = false) String firstName,
-                                 @RequestParam(required = false) String lastName,
+    public String getAllStudents(@RequestParam(required = false) String name,
                                  @RequestParam(required = false) Integer studentGroupId,
                                  @RequestParam(required = false) Integer subjectId,
                                  Model model) {
-        List<Student> students = studentService.filterStudents(firstName, lastName, studentGroupId, subjectId);
+        List<Student> students = studentService.filterStudents(name, studentGroupId, subjectId);
         model.addAttribute("students", students);
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
         return "student";
     }
-
 
     @PostMapping
     public String saveStudent(@ModelAttribute("student") StudentCreateDto student, Model model) {
