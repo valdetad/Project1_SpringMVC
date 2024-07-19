@@ -7,6 +7,7 @@ import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -30,13 +31,9 @@ public class StudentService {
         return studentRepository.findAll();
     }
 
-    public List<Student> filterStudents(String firstName, String lastName, Integer studentGroupId, Integer subjectId) {
-        if (firstName != null && !firstName.isEmpty() && lastName != null && !lastName.isEmpty()) {
-            return studentRepository.findByFirstNameAndLastName(firstName, lastName);
-        } else if (firstName != null && !firstName.isEmpty()) {
-            return studentRepository.findByFirstName(firstName);
-        } else if (lastName != null && !lastName.isEmpty()) {
-            return studentRepository.findByLastName(lastName);
+    public List<Student> filterStudents(String name, Integer studentGroupId, Integer subjectId) {
+        if (name != null && !name.isEmpty()) {
+            return studentRepository.findByNameContainingIgnoreCase(name);
         } else if (studentGroupId != null) {
             return studentRepository.findByStudentGroupId(studentGroupId);
         } else if (subjectId != null) {
@@ -45,7 +42,6 @@ public class StudentService {
             return getAllStudents();
         }
     }
-
 
     public Student getStudentById(int studentId) {
         Optional<Student> student = studentRepository.findById(studentId);
@@ -78,8 +74,6 @@ public class StudentService {
 
         List<Subject> subjects = subjectRepository.findAllById(studentDto.getSubjectIds());
         student.setSubjects(subjects);
-
-        studentRepository.save(student);
-        return student;
+        return studentRepository.save(student);
     }
 }
