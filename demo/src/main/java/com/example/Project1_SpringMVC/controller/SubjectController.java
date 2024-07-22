@@ -1,7 +1,10 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
+import com.example.Project1_SpringMVC.data.models.StudentGroup;
 import com.example.Project1_SpringMVC.service.SubjectService;
+import com.example.Project1_SpringMVC.service.StudentGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,9 @@ public class SubjectController {
     @Autowired
     private SubjectService subjectService;
 
+    @Autowired
+    private StudentGroupService studentGroupService;
+
     @ResponseBody
     @GetMapping("/rest/all")
     public List<Subject> getAllSubjects() {
@@ -27,7 +33,9 @@ public class SubjectController {
     @GetMapping
     public String getAllSubjects(Model model) {
         List<Subject> subjects = subjectService.getAllSubjects();
+        List<StudentGroup> studentGroups = studentGroupService.getAllStudentGroups();
         model.addAttribute("subjects", subjects);
+        model.addAttribute("studentGroups", studentGroups);
         model.addAttribute("newSubject", new SubjectCreateDto());
         return "subject";
     }
