@@ -2,65 +2,73 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>Subjects</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
 <body>
-<div class="container my-2">
-    <div class="card">
-        <div class="card-body">
-            <h2>Subjects</h2>
+<div class="container my-4">
+    <h2>Subjects</h2>
 
-            <!-- Filter for Subject -->
-            <form action="/subject/filter" method="get" class="mb-4">
-                <div class="form-row align-items-end">
-                    <div class="col-md-4">
-                        <label for="subjectName">Subject Name</label>
-                        <input type="text" id="subjectName" name="name" class="form-control" placeholder="Subject Name">
-                    </div>
-                    <div class="col-md-4">
-                        <label for="groupName">Assigned Group Name</label>
-                        <input type="text" id="groupName" name="groupName" class="form-control" placeholder="Group Name">
-                    </div>
-                    <div class="col-md-4">
-                        <button type="submit" class="btn btn-primary mt-4">Apply Filters</button>
-                        <a href="/subject" class="btn btn-secondary mt-4 ml-2">Clear Filters</a>
-                    </div>
-                </div>
-            </form>
-
-            <!-- Add Subject form -->
-            <form th:action="@{/subject}" th:object="${newSubject}" method="post">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Subject Name" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Add Subject</button>
-            </form>
-
-            <h3 class="mt-4">Subject List</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="subject : ${subjects}">
-                    <td th:text="${subject.name}"></td>
-                    <td>
-                        <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success">Edit</a>
-                        <a th:href="@{/subject/delete/{id}(id=${subject.id})}" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <!-- Filter Form -->
+    <form action="/subject" method="get" class="form-inline mb-4">
+        <div class="form-group mr-2">
+            <label for="subjectId" class="mr-2">Subject:</label>
+            <select class="form-control" id="subjectId" name="subjectId">
+                <option value="">Select a subject</option>
+                <th:block th:each="subject : ${subjects}">
+                    <option th:value="${subject.id}" th:text="${subject.name}"
+                            th:selected="${subject.id == param.subjectId}"></option>
+                </th:block>
+            </select>
         </div>
+
+        <div class="form-group mr-2">
+            <label for="studentGroupId" class="mr-2">Student Group:</label>
+            <select class="form-control" id="studentGroupId" name="studentGroupId">
+                <option value="">Select a student group</option>
+                <th:block th:each="group : ${studentGroups}">
+                    <option th:value="${group.id}" th:text="${group.name}"
+                            th:selected="${group.id == param.studentGroupId}"></option>
+                </th:block>
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Filter</button>
+        <a href="/subject" class="btn btn-secondary ml-2">Clear Filters</a>
+    </form>
+
+    <!-- List of Subjects -->
+    <h3 class="mt-4">Subject List</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Subject</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="subject : ${subjects}">
+            <td th:text="${subject.name}"></td>
+            <td>
+                <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success btn-sm">Edit</a>
+                <a th:href="@{/subject/delete/{id}(id=${subject.id})}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- Add Subject form -->
+    <div class="mt-4">
+        <h3>Add New Subject</h3>
+        <form th:action="@{/subject}" th:object="${newSubject}" method="post">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Subject Name" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Subject</button>
+        </form>
     </div>
+
 </div>
 </body>
 </html>
