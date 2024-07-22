@@ -57,7 +57,7 @@ public class SubjectService {
     }
 
     public List<Subject> findFilteredSubjects(String search) {
-        Specification<Subject> spec = SubjectRepository.filterSubjects(search);
+        Specification<Subject> spec = SubjectRepository.filterSubjects(Integer.valueOf(search));
         return subjectRepository.findAll(spec);
     }
 }
