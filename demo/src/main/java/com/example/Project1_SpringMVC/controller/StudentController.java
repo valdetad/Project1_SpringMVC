@@ -1,5 +1,4 @@
 package com.example.Project1_SpringMVC.controller;
-
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
@@ -11,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller

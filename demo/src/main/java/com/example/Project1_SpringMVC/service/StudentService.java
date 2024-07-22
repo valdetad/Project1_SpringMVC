@@ -1,4 +1,5 @@
 package com.example.Project1_SpringMVC.service;
+
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.data.models.Subject;
@@ -32,15 +33,21 @@ public class StudentService {
     }
 
     public List<Student> filterStudents(String name, Integer studentGroupId, Integer subjectId) {
-        if (name != null && !name.isEmpty()) {
-            return studentRepository.findByNameContainingIgnoreCase(name);
-        } else if (studentGroupId != null) {
-            return studentRepository.findByStudentGroupId(studentGroupId);
-        } else if (subjectId != null) {
-            return studentRepository.findBySubjectsId(subjectId);
-        } else {
-            return getAllStudents();
-        }
+
+        return studentRepository.findAll(StudentRepository.filterStudents(name, studentGroupId, subjectId));
+//        if (name != null && !name.isEmpty() && studentGroupId != null) {
+//            return studentRepository.findByNameContainingIgnoreCaseAndGroupId(name, studentGroupId);
+//        }
+//
+//        if (name != null && !name.isEmpty()) {
+//            return studentRepository.findByNameContainingIgnoreCase(name);
+//        } else if (studentGroupId != null) {
+//            return studentRepository.findByStudentGroupId(studentGroupId);
+//        } else if (subjectId != null) {
+//            return studentRepository.findBySubjectsId(subjectId);
+//        } else {
+//            return getAllStudents();
+//        }
     }
 
     public Student getStudentById(int studentId) {
