@@ -4,6 +4,7 @@ import com.example.Project1_SpringMVC.data.dtos.SubjectCreateDto;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +15,12 @@ import java.util.Optional;
 @Transactional
 public class SubjectService {
 
+    private final SubjectRepository subjectRepository;
+
     @Autowired
-    private SubjectRepository subjectRepository;
+    public SubjectService(SubjectRepository subjectRepository) {
+        this.subjectRepository = subjectRepository;
+    }
 
     public List<Subject> getAllSubjects() {
         return subjectRepository.findAll();
@@ -26,9 +31,8 @@ public class SubjectService {
         return subject.orElse(null);
     }
 
-    public Subject deleteSubject(int subjectId) {
+    public void deleteSubject(int subjectId) {
         subjectRepository.deleteById((long) subjectId);
-        return null;
     }
 
     public Subject saveOrUpdateSubject(SubjectCreateDto subjectDto) {
@@ -37,15 +41,23 @@ public class SubjectService {
             Optional<Subject> existingSubjectOptional = subjectRepository.findById((long) subjectDto.getId());
             if (existingSubjectOptional.isPresent()) {
                 subject = existingSubjectOptional.get();
+                // Set subject details
                 subject.setName(subjectDto.getName());
             } else {
                 throw new IllegalArgumentException("Subject with id " + subjectDto.getId() + " not found.");
             }
         } else {
             subject = new Subject();
+            // Set new subject details
+            subject.setName(subjectDto.getName());
         }
 
-        subject.setName(subjectDto.getName());
+        // Save the subject to the repository
         return subjectRepository.save(subject);
+    }
+
+    public List<Subject> findFilteredSubjects(String search) {
+        Specification<Subject> spec = SubjectRepository.filterSubjects(search);
+        return subjectRepository.findAll(spec);
     }
 }

@@ -13,25 +13,27 @@
     <h2>Subjects</h2>
 
     <!-- Filter Form -->
-    <form action="/subject" method="get" class="form-inline mb-4">
+    <form action="#" th:action="@{/subject}" method="get" class="form-inline mb-4">
         <div class="form-group mr-2">
             <label for="subjectId" class="mr-2">Subject</label>
-            <select class="form-control" id="subjectId" name="subjectId">
-                <option value="">Subject</option>
-                <th:block th:each="subject : ${subjects}">
-                    <option th:value="${subject.id}" th:text="${subject.name}"
-                            th:selected="${subject.id == param.subjectId}"></option>
+            <select class="form-control" id="subjectId" name="subjectId" onchange="this.form.submit()">
+                <option value="" th:selected="${param.subjectId == null}">Select Subject</option>
+                <th:block th:each="subject : ${allSubjects}">
+                    <option th:value="${subject.id}"
+                            th:text="${subject.name}"
+                            th:selected="${param.subjectId != null and param.subjectId.toString() == subject.id.toString()}"></option>
                 </th:block>
             </select>
         </div>
 
         <div class="form-group mr-2">
             <label for="studentGroupId" class="mr-2">Student Group</label>
-            <select class="form-control" id="studentGroupId" name="studentGroupId">
-                <option value="">Student Group</option>
+            <select class="form-control" id="studentGroupId" name="studentGroupId" onchange="this.form.submit()">
+                <option value="" th:selected="${param.studentGroupId == null}">Select Student Group</option>
                 <th:block th:each="group : ${studentGroups}">
-                    <option th:value="${group.id}" th:text="${group.name}"
-                            th:selected="${group.id == param.studentGroupId}"></option>
+                    <option th:value="${group.id}"
+                            th:text="${group.name}"
+                            th:selected="${param.studentGroupId != null and param.studentGroupId.toString() == group.id.toString()}"></option>
                 </th:block>
             </select>
         </div>
@@ -59,7 +61,7 @@
         </tbody>
     </table>
 
-    <!-- Add Subject form -->
+    <!-- Add Subject Form -->
     <div class="mt-4">
         <h3>Add New Subject</h3>
         <form th:action="@{/subject}" th:object="${newSubject}" method="post">
