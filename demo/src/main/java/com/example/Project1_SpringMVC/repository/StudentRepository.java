@@ -20,12 +20,9 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
         return (Root<Student> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Handle search criteria
             if (search != null && !search.isEmpty()) {
                 String lowerCaseSearch = search.toLowerCase();
                 List<Predicate> searchPredicates = new ArrayList<>();
-
-                // Add OR predicates for search criteria
                 searchPredicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")),
                         "%" + lowerCaseSearch + "%"));
                 searchPredicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")),
@@ -33,7 +30,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
                 searchPredicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("email")),
                         "%" + lowerCaseSearch + "%"));
 
-                // Concatenate firstName and lastName for fullName search
                 Predicate fullNamePredicate = criteriaBuilder.like(
                         criteriaBuilder.lower(
                                 criteriaBuilder.concat(
@@ -41,12 +37,9 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
                                         root.get("lastName"))),
                         "%" + lowerCaseSearch + "%");
                 searchPredicates.add(fullNamePredicate);
-
-                // Combine all search predicates with OR
                 predicates.add(criteriaBuilder.or(searchPredicates.toArray(new Predicate[0])));
             }
 
-            // Handle studentGroupId criteria
             if (studentGroupId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("studentGroup").get("id"), studentGroupId));
             }

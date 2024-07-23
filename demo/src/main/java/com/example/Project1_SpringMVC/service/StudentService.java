@@ -47,7 +47,6 @@ public class StudentService {
     }
 
     public Student saveOrUpdateStudent(StudentCreateDto studentDto, Integer id) {
-        // Ensure at least one subject is assigned
         if (studentDto.getSubjectIds() == null || studentDto.getSubjectIds().isEmpty()) {
             throw new IllegalArgumentException("A student must be assigned to at least one subject.");
         }
@@ -61,14 +60,12 @@ public class StudentService {
             student = new Student();
         }
 
-        // Set student details
         student.setFirstName(studentDto.getFirstName());
         student.setLastName(studentDto.getLastName());
         student.setEmail(studentDto.getEmail());
         student.setBirthDate(studentDto.getBirthDate());
         student.setStudentGroup(studentGroupService.getStudentGroupById(studentDto.getStudentGroupId()));
 
-        // Fetch subjects by IDs and set them to the student
         List<Subject> subjects = subjectRepository.findAllById(studentDto.getSubjectIds());
         student.setSubjects(subjects);
         return studentRepository.save(student);

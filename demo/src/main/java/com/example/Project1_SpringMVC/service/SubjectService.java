@@ -41,22 +41,21 @@ public class SubjectService {
             Optional<Subject> existingSubjectOptional = subjectRepository.findById((long) subjectDto.getId());
             if (existingSubjectOptional.isPresent()) {
                 subject = existingSubjectOptional.get();
-                // Set subject details
                 subject.setName(subjectDto.getName());
             } else {
                 throw new IllegalArgumentException("Subject with id " + subjectDto.getId() + " not found.");
             }
         } else {
             subject = new Subject();
-            // Set new subject details
             subject.setName(subjectDto.getName());
         }
+        // Handle studentsIds and subjectIds if needed here
 
         return subjectRepository.save(subject);
     }
 
-    public List<Subject> findFilteredSubjects(String search) {
-        Specification<Subject> spec = SubjectRepository.filterSubjects(Integer.valueOf(search));
+    public List<Subject> findFilteredSubjects(Integer subjectId, Integer studentGroupId) {
+        Specification<Subject> spec = SubjectRepository.filterSubjects(subjectId, studentGroupId);
         return subjectRepository.findAll(spec);
     }
 }

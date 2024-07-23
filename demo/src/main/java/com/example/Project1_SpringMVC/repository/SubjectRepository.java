@@ -16,15 +16,21 @@ import java.util.List;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Long>, JpaSpecificationExecutor<Subject> {
 
-    static Specification<Subject> filterSubjects(Integer subjectId) {
+    static Specification<Subject> filterSubjects(Integer subjectId, Integer studentGroupId) {
         return (Root<Subject> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
 
-            // Handle subjectId criteria
             if (subjectId != null) {
                 predicates.add(criteriaBuilder.equal(root.get("id"), subjectId));
             }
 
+            if (studentGroupId != null) {
+                predicates.add(criteriaBuilder.exists(
+                        query.subquery(Subject.class)
+                                .select(root)
+                                .where(criteriaBuilder.equal(root.join("students").get("studentGroup").get("id"), studentGroupId))
+                ));
+            }
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }

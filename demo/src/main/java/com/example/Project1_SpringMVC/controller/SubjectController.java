@@ -72,7 +72,6 @@ public class SubjectController {
             Subject subject = subjectService.getSubjectById(subjectId);
             filteredSubjects = subject != null ? List.of(subject) : List.of();
         } else if (studentGroupId != null) {
-            // Implement filtering based on studentGroupId
             filteredSubjects = subjects.stream()
                     .filter(subject -> subject.getStudents().stream()
                             .anyMatch(student -> student.getStudentGroup().getId().equals(studentGroupId)))
