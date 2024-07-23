@@ -52,7 +52,6 @@ public class SubjectService {
             subject.setName(subjectDto.getName());
         }
 
-        // Save the subject to the repository
         return subjectRepository.save(subject);
     }
 

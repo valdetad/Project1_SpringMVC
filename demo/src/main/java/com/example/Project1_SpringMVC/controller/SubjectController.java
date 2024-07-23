@@ -78,7 +78,7 @@ public class SubjectController {
                             .anyMatch(student -> student.getStudentGroup().getId().equals(studentGroupId)))
                     .toList();
         } else {
-            filteredSubjects = subjects; // No filter applied, display all subjects
+            filteredSubjects = subjects;
         }
 
         List<StudentGroup> studentGroups = studentGroupService.getAllStudentGroups();
