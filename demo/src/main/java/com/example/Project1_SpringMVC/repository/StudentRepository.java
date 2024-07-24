@@ -5,6 +5,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -44,9 +46,7 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
                 predicates.add(criteriaBuilder.equal(root.get("studentGroup").get("id"), studentGroupId));
             }
 
-            // Handle subjectId criteria
             if (subjectId != null) {
-                // Ensure subjects collection is joined for proper filtering
                 Predicate subjectPredicate = criteriaBuilder.exists(
                         query.subquery(Student.class)
                                 .select(root)
@@ -58,4 +58,6 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
             return criteriaBuilder.and(predicates.toArray(new Predicate[0]));
         };
     }
+
+    Page<Student> findAll(Specification<Student> spec, Pageable pageable);
 }

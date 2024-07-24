@@ -9,16 +9,16 @@
 <div class="container my-4">
     <h2>Students</h2>
 
-    <!--Filter-->
+    <!-- Filter -->
     <form th:action="@{/student}" method="get" class="form-inline mb-4">
         <div class="form-group mr-2">
             <label for="name" class="mr-2">Name:</label>
-            <input type="text" class="form-control" id="name" name="name" th:value="${param.name}">
+            <input type="text" class="form-control" id="name" name="name" th:value="${param.name}" placeholder="Name">
         </div>
 
         <div class="form-group mr-2">
             <label for="studentGroupId" class="mr-2">Student Group</label>
-            <select class="form-control" id="studentGroupId" name="studentGroupId"  onchange="this.form.submit()" >
+            <select id="studentGroupId" class="form-control" name="studentGroupId" onchange="this.form.submit()">
                 <option value="" th:selected="${param.studentGroupId == null}">Select a student group</option>
                 <option th:each="group : ${studentGroups}"
                         th:value="${group.id}"
@@ -30,7 +30,7 @@
 
         <div class="form-group mr-2">
             <label for="subjectId" class="mr-2">Subjects:</label>
-            <select class="form-control" id="subjectId" name="subjectId" onchange="this.form.submit()">
+            <select id="subjectId" class="form-control" name="subjectId" onchange="this.form.submit()">
                 <option value="" th:selected="${param.subjectId == null}">Select a subject</option>
                 <option th:each="subject : ${subjects}"
                         th:value="${subject.id}"
@@ -43,7 +43,6 @@
         <button type="submit" class="btn btn-primary mr-2">Filter</button>
         <a href="/student" class="btn btn-secondary">Clear Filters</a>
     </form>
-
 
     <!-- Students Table -->
     <table class="table table-striped">
@@ -59,7 +58,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="student : ${students}">
+        <tr th:each="student : ${studentsPage.content}">
             <td th:text="${student.id}">1</td>
             <td th:text="${student.firstName}">John</td>
             <td th:text="${student.lastName}">Doe</td>
@@ -74,6 +73,20 @@
         </tbody>
     </table>
 
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+            <li class="page-item" th:classappend="${studentsPage.number == 0} ? 'disabled'">
+                <a class="page-link" th:href="@{/student(page=${studentsPage.number - 1}, name=${param.name}, studentGroupId=${param.studentGroupId}, subjectId=${param.subjectId})}">Previous</a>
+            </li>
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, studentsPage.totalPages - 1)}" th:classappend="${i == studentsPage.number} ? 'active'">
+                <a class="page-link" th:href="@{/student(page=${i}, name=${param.name}, studentGroupId=${param.studentGroupId}, subjectId=${param.subjectId})}" th:text="${i + 1}">1</a>
+            </li>
+            <li class="page-item" th:classappend="${studentsPage.number + 1 == studentsPage.totalPages} ? 'disabled'">
+                <a class="page-link" th:href="@{/student(page=${studentsPage.number + 1}, name=${param.name}, studentGroupId=${param.studentGroupId}, subjectId=${param.subjectId})}">Next</a>
+            </li>
+        </ul>
+    </nav>
 
     <!-- Add New Student Form -->
     <div class="mt-4">
@@ -97,8 +110,8 @@
             <div class="form-group">
                 <label for="addBirthDate">Birthdate</label>
                 <input type="date" class="form-control" id="addBirthDate" th:field="*{birthDate}">
-
             </div>
+
             <div class="form-group">
                 <label for="addStudentGroupId">Student Group</label>
                 <select id="addStudentGroupId" class="form-control" th:field="*{studentGroupId}" required>

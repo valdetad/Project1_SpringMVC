@@ -1,15 +1,21 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.service.StudentGroupService;
 import com.example.Project1_SpringMVC.service.StudentService;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @Controller
@@ -27,8 +33,11 @@ public class StudentController {
 
     @ResponseBody
     @GetMapping("/rest/all")
-    public List<Student> getAllStudentsRest() {
-        return studentService.getAllStudents();
+    public List<Student> getAllStudentsRest(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("firstName").ascending());
+        return studentService.getAllStudents(pageable).getContent();
     }
 
     @ResponseBody
@@ -65,12 +74,16 @@ public class StudentController {
     }
 
     @GetMapping
-    public String getAllStudents(@RequestParam(required = false) String name,
-                                 @RequestParam(required = false) Integer studentGroupId,
-                                 @RequestParam(required = false) Integer subjectId,
-                                 Model model) {
-        List<Student> students = studentService.filterStudents(name, studentGroupId, subjectId);
-        model.addAttribute("students", students);
+    public String getAllStudents(
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer studentGroupId,
+            @RequestParam(required = false) Integer subjectId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            Model model) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("lastName").ascending());
+        Page<Student> studentsPage = studentService.filterStudents(name, studentGroupId, subjectId, pageable);
+        model.addAttribute("studentsPage", studentsPage);
         model.addAttribute("newStudent", new StudentCreateDto());
         model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
         model.addAttribute("subjects", subjectService.getAllSubjects());
@@ -124,13 +137,8 @@ public class StudentController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteStudent(@PathVariable("id") int id, Model model) {
+    public String deleteStudent(@PathVariable("id") int id) {
         studentService.deleteStudent(id);
-        List<Student> students = studentService.getAllStudents();
-        model.addAttribute("students", students);
-        model.addAttribute("newStudent", new StudentCreateDto());
-        model.addAttribute("studentGroups", studentGroupService.getAllStudentGroups());
-        model.addAttribute("subjects", subjectService.getAllSubjects());
         return "redirect:/student";
     }
 }

@@ -1,10 +1,13 @@
 package com.example.Project1_SpringMVC.service;
+
 import com.example.Project1_SpringMVC.data.dtos.StudentCreateDto;
 import com.example.Project1_SpringMVC.data.models.Student;
 import com.example.Project1_SpringMVC.data.models.Subject;
 import com.example.Project1_SpringMVC.repository.StudentRepository;
 import com.example.Project1_SpringMVC.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,7 +17,7 @@ import java.util.Optional;
 @Service
 @Transactional
 public class StudentService {
- 
+
     private final StudentRepository studentRepository;
     private final SubjectRepository subjectRepository;
 
@@ -27,13 +30,12 @@ public class StudentService {
         this.subjectRepository = subjectRepository;
     }
 
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll();
+    public Page<Student> getAllStudents(Pageable pageable) {
+        return studentRepository.findAll(pageable); // Use the pageable parameter directly
     }
 
-    public List<Student> filterStudents(String name, Integer studentGroupId, Integer subjectId) {
-        // Use the filterStudents method from StudentRepository
-        return studentRepository.findAll(StudentRepository.filterStudents(name, studentGroupId, subjectId));
+    public Page<Student> filterStudents(String name, Integer studentGroupId, Integer subjectId, Pageable pageable) {
+        return studentRepository.findAll(StudentRepository.filterStudents(name, studentGroupId, subjectId), pageable);
     }
 
     public Student getStudentById(int studentId) {

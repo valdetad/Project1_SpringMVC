@@ -1,4 +1,5 @@
 package com.example.Project1_SpringMVC.controller;
+
 import com.example.Project1_SpringMVC.data.dtos.GradeCreateDto;
 import com.example.Project1_SpringMVC.data.models.Grade;
 import com.example.Project1_SpringMVC.service.GradeService;
@@ -6,6 +7,8 @@ import com.example.Project1_SpringMVC.service.StudentService;
 import com.example.Project1_SpringMVC.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,11 +37,13 @@ public class GradeController {
     }
 
     @GetMapping
-    public String getAllGrades(Model model) {
+    public String getAllGrades(Model model,
+                               @RequestParam(defaultValue = "0") int page) {
+        Pageable pageable = PageRequest.of(page, 5); // Set page size to 5
         List<Grade> grades = gradeService.getAllGrades();
         model.addAttribute("grades", grades);
         model.addAttribute("newGrade", new GradeCreateDto());
-        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("students", studentService.getAllStudents(pageable).getContent());
         model.addAttribute("subjects", subjectService.getAllSubjects());
         return "grade";
     }
@@ -69,7 +74,7 @@ public class GradeController {
                 gradeDto.setSubjectId(grade.getSubject().getId());
             }
             model.addAttribute("grade", gradeDto);
-            model.addAttribute("students", studentService.getAllStudents());
+            model.addAttribute("students", studentService.getAllStudents(PageRequest.of(0, 5)).getContent()); // Set page size to 5
             model.addAttribute("subjects", subjectService.getAllSubjects());
             return "edit-grade";
         } else {
@@ -83,7 +88,6 @@ public class GradeController {
         return "redirect:/grade";
     }
 
-    // REST Edit
     @PostMapping("/rest/edit/{id}")
     @ResponseBody
     public ResponseEntity<Grade> updateGradeRest(@PathVariable("id") int id, @RequestBody GradeCreateDto gradeDto) {
