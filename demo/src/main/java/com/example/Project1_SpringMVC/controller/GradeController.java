@@ -74,7 +74,7 @@ public class GradeController {
                 gradeDto.setSubjectId(grade.getSubject().getId());
             }
             model.addAttribute("grade", gradeDto);
-            model.addAttribute("students", studentService.getAllStudents(PageRequest.of(0, 5)).getContent()); // Set page size to 5
+            model.addAttribute("students", studentService.getAllStudents(PageRequest.of(0, 5)).getContent());
             model.addAttribute("subjects", subjectService.getAllSubjects());
             return "edit-grade";
         } else {

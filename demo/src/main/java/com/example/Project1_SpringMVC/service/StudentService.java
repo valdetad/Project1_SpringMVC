@@ -31,7 +31,7 @@ public class StudentService {
     }
 
     public Page<Student> getAllStudents(Pageable pageable) {
-        return studentRepository.findAll(pageable); // Use the pageable parameter directly
+        return studentRepository.findAll(pageable);
     }
 
     public Page<Student> filterStudents(String name, Integer studentGroupId, Integer subjectId, Pageable pageable) {
