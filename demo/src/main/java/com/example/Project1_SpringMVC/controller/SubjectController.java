@@ -24,8 +24,11 @@ public class SubjectController {
 
     @ResponseBody
     @GetMapping("/rest/all")
-    public List<Subject> getAllSubjectsRest() {
+    public List<Subject> getAllSubjectsRest(
+
+    ) {
         return subjectService.getAllSubjects();
+
     }
 
     @ResponseBody

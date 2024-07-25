@@ -11,7 +11,7 @@
         <div class="card-body">
             <h2>Edit Student Group</h2>
             <form th:action="@{/student-group/edit/{id}(id=${studentGroup.id})}" th:object="${studentGroup}" method="post">
-                <input type="hidden" th:field="*{id}" />
+                <input th:field="*{id}" />
                 <div class="form-group">
                     <label for="name">Group Name</label>
                     <input type="text" class="form-control" id="name" th:field="*{name}">

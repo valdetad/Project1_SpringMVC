@@ -6,72 +6,88 @@
     <title>Subjects</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css">
 </head>
 <body>
 <div class="container my-4">
     <h2>Subjects</h2>
 
-    <!-- Filter Form -->
-    <form action="#" th:action="@{/subject}" method="get" class="form-inline mb-4">
-        <div class="form-group mr-2">
-            <label for="subjectId" class="mr-2">Subject</label>
-            <select class="form-control" id="subjectId" name="subjectId" onchange="this.form.submit()">
-                <option value="" th:selected="${param.subjectId == null}">Select Subject</option>
-                <th:block th:each="subject : ${allSubjects}">
-                    <option th:value="${subject.id}"
-                            th:text="${subject.name}"
-                            th:selected="${param.subjectId != null and param.subjectId.toString() == subject.id.toString()}"></option>
-                </th:block>
-            </select>
-        </div>
+    <!-- Filter -->
+    <div class="card">
+        <div class="card-body">
+            <h3>Filter Subjects</h3>
+            <form action="#" th:action="@{/subject}" method="get" class="form-inline mb-4">
+                <div class="form-group mr-2">
+                    <label for="subjectId" class="mr-2">Subject:</label>
+                    <select class="form-control" id="subjectId" name="subjectId">
+                        <option value="" th:selected="${param.subjectId == null}">Select Subject</option>
+                        <th:block th:each="subject : ${allSubjects}">
+                            <option th:value="${subject.id}"
+                                    th:text="${subject.name}"
+                                    th:selected="${param.subjectId != null and param.subjectId.toString() == subject.id.toString()}"></option>
+                        </th:block>
+                    </select>
+                </div>
 
-        <div class="form-group mr-2">
-            <label for="studentGroupId" class="mr-2">Student Group</label>
-            <select class="form-control" id="studentGroupId" name="studentGroupId" onchange="this.form.submit()">
-                <option value="" th:selected="${param.studentGroupId == null}">Select Student Group</option>
-                <th:block th:each="group : ${studentGroups}">
-                    <option th:value="${group.id}"
-                            th:text="${group.name}"
-                            th:selected="${param.studentGroupId != null and param.studentGroupId.toString() == group.id.toString()}"></option>
-                </th:block>
-            </select>
+                <div class="form-group mr-2">
+                    <label for="studentGroupId" class="mr-2">Student Group:</label>
+                    <select class="form-control" id="studentGroupId" name="studentGroupId">
+                        <option value="" th:selected="${param.studentGroupId == null}">Select Student Group</option>
+                        <th:block th:each="group : ${studentGroups}">
+                            <option th:value="${group.id}"
+                                    th:text="${group.name}"
+                                    th:selected="${param.studentGroupId != null and param.studentGroupId.toString() == group.id.toString()}"></option>
+                        </th:block>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary mr-2">Filter</button>
+                <a href="/subject" class="btn btn-secondary">Clear Filters</a>
+            </form>
         </div>
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a href="/subject" class="btn btn-light ml-2">Clear Filters</a>
-    </form>
+    </div>
 
     <!-- List of Subjects -->
-    <h3 class="mt-4">Subject List</h3>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Subject</th>
-            <th>Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="subject : ${subjects}">
-            <td th:text="${subject.name}"></td>
-            <td>
-                <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success">Edit</a>
-                <a th:href="@{/subject/delete/{id}(id=${subject.id})}" class="btn btn-danger">Delete</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3>Subject List</h3>
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subject : ${subjects}">
+                    <td th:text="${subject.name}"></td>
+                    <td>
+                        <a th:href="@{/subject/edit/{id}(id=${subject.id})}" class="btn btn-success btn-sm">Edit</a>
+                        <a th:href="@{/subject/delete/{id}(id=${subject.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 
     <!-- Add Subject Form -->
-    <div class="mt-4">
-        <h3>Add New Subject</h3>
-        <form th:action="@{/subject}" th:object="${newSubject}" method="post">
-            <div class="form-group">
-                <label for="name">Subject</label>
-                <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Subject Name" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Add Subject</button>
-        </form>
+    <div class="card mt-4">
+        <div class="card-body">
+            <h3>Add New Subject</h3>
+            <form th:action="@{/subject}" th:object="${newSubject}" method="post" class="needs-validation" novalidate>
+                <div class="form-group">
+                    <label for="name">Subject</label>
+                    <input type="text" class="form-control" id="name" th:field="*{name}" placeholder="Subject Name" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Subject</button>
+                <button type="button" class="btn btn-secondary">Cancel</button>
+            </form>
+        </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"></script>
 </body>
 </html>

@@ -6,68 +6,57 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container my-2">
-    <div class="card">
-        <div class="card-body">
-            <h2>Student Groups</h2>
+<div class="container my-4">
+    <h2>Student Groups</h2>
 
-            <!-- Filter Student Group button -->
-            <div class="mb-3">
-                <button class="btn btn-primary" data-toggle="collapse" data-target="#filterForm">Filter Groups</button>
-            </div>
-
-            <!-- Filtering -->
-            <div id="filterForm" class="collapse">
-                <form action="/student-group/filter" method="get">
-                    <div class="form-row align-items-end">
-                        <div class="form-group col-md-4">
-                            <label for="groupNameFilter">Group Name</label>
-                            <input type="text" id="groupNameFilter" name="groupName" class="form-control">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label for="minStudents">Min. Students</label>
-                            <input type="number" id="minStudents" name="minStudents" class="form-control">
-                        </div>
-                        <div class="form-group col-md-4">
-                            <button type="submit" class="btn btn-success mt-4">Apply Filters</button>
-                            <a href="/student-group" class="btn btn-secondary mt-4 ml-2">Clear Filters</a>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Add Student Group form -->
-            <h4>Add Group</h4>
-            <form th:action="@{/student-group/add}" method="post">
-                <div class="form-group">
-                    <label for="groupNameAdd">Group Name</label>
-                    <input type="text" id="groupNameAdd" name="name" class="form-control" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </form>
-
-            <!-- Student groups List -->
-            <table class="table mt-3">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="group : ${studentGroups}">
-                    <td th:text="${group.id}"></td>
-                    <td th:text="${group.name}"></td>
-                    <td>
-                        <a th:href="@{/student-group/edit/{id}(id=${group.id})}" class="btn btn-success">Edit</a>
-                        <a th:href="@{/student-group/delete/{id}(id=${group.id})}" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
+    <!-- Filter -->
+    <form th:action="@{/groups}" method="get" class="form-inline mb-4">
+        <div class="form-group mr-2">
+            <label for="groupNameFilter" class="mr-2">Group Name</label>
+            <input type="text" id="groupNameFilter" name="groupName" class="form-control">
         </div>
+        <div class="form-group mr-2">
+            <label for="numberOfStudents" class="mr-2">Number of Students</label>
+            <input type="number" id="numberOfStudents" name="numberOfStudents" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-primary mr-2">Apply</button>
+        <a href="/student-group" class="btn btn-secondary">Clear Filters</a>
+    </form>
+
+    <!-- Add New Group Form -->
+    <div class="mb-4">
+        <h3>Add New Group</h3>
+        <form th:action="@{/student-group/add}" method="post">
+            <div class="form-group">
+                <label for="groupNameAdd">Group Name</label>
+                <input type="text" id="groupNameAdd" name="name" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Group</button>
+            <a href="/student-group" class="btn btn-secondary">Cancel</a>
+        </form>
     </div>
+
+    <!-- Student Groups List -->
+    <h3>Student Groups List</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="group : ${studentGroups}">
+            <td th:text="${group.id}"></td>
+            <td th:text="${group.name}"></td>
+            <td>
+                <a th:href="@{/student-group/edit/{id}(id=${group.id})}" class="btn btn-success btn-sm">Edit</a>
+                <a th:href="@{/student-group/delete/{id}(id=${group.id})}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js"></script>
